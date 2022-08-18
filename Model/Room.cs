@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.StaticFiles;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -30,15 +30,15 @@ namespace BackEnd.Model
             return room;
         }
 
-        public static List<Room> ListByType(string type)
+        public static List<RoomInfo> RoomInfo_ListByType(string type)
         {
-            List<Room> list = new List<Room>();
-            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM ROOM WHERE RoomType = :RoomType",
+            List<RoomInfo> list = new List<RoomInfo>();
+            DataTable dt = DBHelper.ExecuteTable("SELECT RoomID , RoomType , RoomStatus FROM ROOM WHERE RoomType = :RoomType",
                 new OracleParameter(":RoomType", type)
                 );
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Room>());
+                list.Add(dr.DtToModel<RoomInfo>());
             }
             return list;
         }
@@ -110,5 +110,10 @@ namespace BackEnd.Model
             }
         }*/
     }
+    public class RoomInfo
+    {
+        public string RoomID { set; get; }//PK
+        public string RoomType { set; get; }
+        public string RoomStatus { set; get; }
+    }
 }
-
