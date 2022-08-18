@@ -10,19 +10,20 @@ namespace BackEnd.Model
 {
     public class Employee
     {
-        public string Id { set; get; }
+        public string ID { set; get; }
         public string Name { set; get; }
         public string Gender { set; get; }
         public string Age { set; get; }
         public string PhoneNum { set; get; }
         public string Salary { set; get; }
         public string Department { set; get; }
+        //共四种类型：Logistics（后勤部）Finance（财务部）Management（管理部）Reception（前台） 
         public string Password { set; get; }
-        public static EmployeeInforDetailed Find(string Id)
+        public static EmployeeInforDetailed Find(string ID)
         {
             EmployeeInforDetailed instance = null;
-            DataTable dt = DBHelper.ExecuteTable("SELECT ID,Name,Gender,Age,Salary,PhoneNum,Department FROM EMPLOYEE WHERE Id = :Id",
-                new OracleParameter(":Id", Id)
+            DataTable dt = DBHelper.ExecuteTable("SELECT ID,Name,Gender,Age,Salary,PhoneNum,Department FROM EMPLOYEE WHERE ID = :ID",
+                new OracleParameter(":ID", ID)
                 );
             if (dt.Rows.Count > 0)
             {
@@ -73,18 +74,23 @@ namespace BackEnd.Model
     }
     public class EmployeeInforSimple
     {
-        public string Id { set; get; }
+        public string ID { set; get; }
         public string Name { set; get; }
         public string Department { set; get; }
     }
     public class EmployeeInforDetailed
     {
-        public string Id { set; get; }
+        public string ID { set; get; }
         public string Name { set; get; }
         public string Gender { set; get; }
         public string Age { set; get; }
         public string Salary { set; get; }
         public string PhoneNum { set; get; }
+        public string Department { set; get; }
+    }
+    public class EmployeeInforToken
+    {
+        public string ID { set; get; }
         public string Department { set; get; }
     }
 
