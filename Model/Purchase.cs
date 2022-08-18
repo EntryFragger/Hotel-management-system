@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.StaticFiles;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace BackEnd.Model
             DataTable dt = DBHelper.ExecuteTable("SELECT *  FROM Purchase WHERE PurchaseID = :PurchaseID",
                 new OracleParameter(":PurchaseID", ID)
                 );
-            if (dt.Rows.Count() > 0)
+            if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
                 order = dr.DtToModel<Purchase>();
@@ -41,10 +41,10 @@ namespace BackEnd.Model
         public static List<Purchase> GetAllList()
         {
             List<Purchase> list = new List<Purchase>();
-            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Purchase",);
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Purchase");
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Order>());
+                list.Add(dr.DtToModel<Purchase>());
             }
             /*为空返回空*/
             if (!list.Any())
@@ -52,22 +52,22 @@ namespace BackEnd.Model
             return list;
         }
 
- 
+
 
         /*创建新的库存收购信息*/
         public static int CreateAccount(string PID, string goodsname, string unit, string quantity, int price, string date)
         {
             /*只能根据id考察合法性*/
-            Purchase pr= Find()
-            if (pr==null)
+            Purchase pr = Find(PID);
+            if (pr == null)
             {
                 return DBHelper.ExecuteNonQuery("INSERT INTO Account(PurchaseID,GoodsName,Unit,Quantity,Price,Date) VALUES(:PurchaseID,:GoodsName,:Unit,:Price,:Date)",
                     new OracleParameter(":PurchaseID", PID),
                     new OracleParameter(":GoodsName", goodsname),
                     new OracleParameter(":Unit", unit),
-                    new OracleParameter(":Quantity", quantity)
+                    new OracleParameter(":Quantity", quantity),
                     new OracleParameter(":Price", price),
-                    new OracleParameter(":Date", date),
+                    new OracleParameter(":Date", date)
                     );
             }
             else
@@ -83,4 +83,6 @@ namespace BackEnd.Model
             new OracleParameter(":PurchaseID", ID)
             );
         }
+    }
 }
+    //Footer
