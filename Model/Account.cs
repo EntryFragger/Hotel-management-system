@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.StaticFiles;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace BackEnd.Model
             DataTable dt = DBHelper.ExecuteTable("SELECT *  FROM Account WHERE AccountID = :AccountID",
                 new OracleParameter(":AccountID", ID)
                 );
-            if (dt.Rows.Count() > 0)
+            if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
                 ac = dr.DtToModel<Account>();
@@ -37,7 +37,7 @@ namespace BackEnd.Model
         public static List<Account> GetAllList()
         {
             List<Account> list = new List<Account>();
-            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Account",);
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Account");
             foreach (DataRow dr in dt.Rows)
             {
                 list.Add(dr.DtToModel<Account>());
@@ -52,10 +52,10 @@ namespace BackEnd.Model
         /*创建新的收支信息，即一笔账*/
         /*创建合法性只能从账目ID考虑*/
         /*不成功为0，否则不为0*/
-        public static int CreateAccount(string AID, string date,int amount , string type)
+        public static int CreateAccount(string AID, string date, int amount, string type)
         {
             Account ac = Find(AID);
-            if (ac = null)
+            if (ac == null)
             {
                 return DBHelper.ExecuteNonQuery("INSERT INTO Account(AccountID,Date,Amount,Type) VALUES(:AccountID,:Date,:Amount,:Type)",
                     new OracleParameter(":AccountID", AID),
