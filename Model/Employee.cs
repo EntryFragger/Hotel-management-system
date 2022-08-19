@@ -19,7 +19,30 @@ namespace BackEnd.Model
         public string Department { set; get; }
         //共四种类型：Logistics（后勤部）Finance（财务部）Management（管理部）Reception（前台） 
         public string Password { set; get; }
-        public static EmployeeInforDetailed Find(string ID)
+        public static string NextID()
+        {
+            string MaxID = "";
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(ID) FROM FINANCIALSTATEMENT ");
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                MaxID = (int.Parse(dt.Rows[0]["ID"].ToString()) + 1).ToString();
+            }
+            return MaxID;
+        }
+        public static Employee Find(string ID)
+        {
+            Employee instance = null;
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM EMPLOYEE WHERE ID = :ID",
+                new OracleParameter(":ID", ID)
+                );
+            if (dt.Rows.Count > 0)
+            {
+                instance = dt.Rows[0].DtToModel<Employee>();
+            }
+            return instance;
+        }
+        public static EmployeeInforDetailed GetInforDetailed(string ID)
         {
             EmployeeInforDetailed instance = null;
             DataTable dt = DBHelper.ExecuteTable("SELECT ID,Name,Gender,Age,Salary,PhoneNum,Department FROM EMPLOYEE WHERE ID = :ID",
@@ -33,6 +56,24 @@ namespace BackEnd.Model
         }
          public static int Add(string ID, string name, string gender, string age, string salary, string phonenum,string department,string password)
         {
+            Employee employee = Employee.Find(ID);
+            if(employee!=null)
+            {
+                DBHelper.ExecuteNonQuery("DELETE FROM EMPLOYEE WHERE ID = :ID",
+                  new OracleParameter(":ID", ID)
+                  );
+                 return DBHelper.ExecuteNonQuery("INSERT INTO EMPLOYEE(ID,Name,Gender,Age,PhoneNum,Salary,Department,Password)" +
+                 "VALUES(:ID,:Name,:Gender,:Age,:PhoneNum,:Salary,:Department,:Password) ",
+                 new OracleParameter(":ID", ID),
+                 new OracleParameter(":Name", name),
+                 new OracleParameter(":Gender", gender),
+                 new OracleParameter(":Age", age),
+                 new OracleParameter(":Salary", salary),
+                 new OracleParameter(":PhoneNum", phonenum),
+                 new OracleParameter(":Department", department),
+                 new OracleParameter(":Password", password)
+                 );
+            }
             return DBHelper.ExecuteNonQuery("INSERT INTO EMPLOYEE(ID,Name,Gender,Age,PhoneNum,Salary,Department,Password)" +
                 "VALUES(:ID,:Name,:Gender,:Age,:PhoneNum,:Salary,:Department,:Password) ",
               new OracleParameter(":ID", ID),
@@ -71,6 +112,22 @@ namespace BackEnd.Model
                 new OracleParameter(":ID", ID)
                 );
         }
+
+        public static int ChangePassword(string ID,string password)
+        {
+            return DBHelper.ExecuteNonQuery("UPDATE EMPLOYEE SET Password=:Password WHERE ID = :ID",
+                new OracleParameter(":ID", ID),
+                new OracleParameter(":Password", password)
+                );
+        }
+        public static List<EmployeeInforSimple> GetAllSimple()
+        {
+            List<EmployeeInforSimple> list = new List<EmployeeInforSimple>();
+            DataTable dt = DBHelper.ExecuteTable("SELECT ID,Name,Department FROM EMPLOYEE");
+            foreach (DataRow dr in dt.Rows)
+                list.Add(dr.DtToModel<EmployeeInforSimple>());
+            return list;
+        }
     }
     public class EmployeeInforSimple
     {
@@ -93,7 +150,14 @@ namespace BackEnd.Model
         public string ID { set; get; }
         public string Department { set; get; }
     }
-
-
+    public class EmployeeInforDetailedWithoutID
+    {
+        public string Name { set; get; }
+        public string Gender { set; get; }
+        public string Age { set; get; }
+        public string Salary { set; get; }
+        public string PhoneNum { set; get; }
+        public string Department { set; get; }
+    }
 
 }

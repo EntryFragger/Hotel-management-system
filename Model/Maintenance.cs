@@ -14,6 +14,18 @@ namespace BackEnd.Model
         public string EmployeeId { set; get; }
         public string Date { set; get; }
         public string ItemName { set; get; }
+        public static Maintenance Find(string itemID)
+        {
+            Maintenance instance = null;
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM MAINTENANCE WHERE ItemID = :ItemID",
+                new OracleParameter(":ItemID", itemID)
+                );
+            if (dt.Rows.Count > 0)
+            {
+                instance = dt.Rows[0].DtToModel<Maintenance>();
+            }
+            return instance;
+        }
         public static List<Maintenance> GetList()
         {
             List<Maintenance> list = new List<Maintenance>();
