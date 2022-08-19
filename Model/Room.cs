@@ -68,8 +68,7 @@ namespace BackEnd.Model
             }
             else
             {
-                throw new Exception("房间不存在，无法改变");
-                return 0;
+                return -1;
             }
         }
 
