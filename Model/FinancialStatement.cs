@@ -12,7 +12,7 @@ namespace BackEnd.Model
     {
         public string StatementId { set; get; }
         public string StatementContent { set; get; }
-        public string Amount { set; get; }
+        public long Amount { set; get; }
         public string State { set; get; }
         public static List<FinancialStatement> GetList()
         {
@@ -36,7 +36,7 @@ namespace BackEnd.Model
             return financialStatement;
 
         }
-        public static int Add(string statementID, string statementcontent, string amount, string state)
+        public static int Add(string statementID, string statementcontent, long amount, string state)
         {
             FinancialStatement financialStatement = Find(statementID);
             if(financialStatement!=null)

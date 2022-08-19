@@ -19,7 +19,7 @@ namespace BackEnd.Model
         public string Unit { set; get; }
 
         public string Quantity { set; get; }
-        public int Price { set; get; }
+        public long Price { set; get; }
         public string Date { set; get; }
 
         /*根据订单的PurchaseID返回对应订单的所有信息*/
@@ -46,16 +46,18 @@ namespace BackEnd.Model
             {
                 list.Add(dr.DtToModel<Purchase>());
             }
-            /*为空返回空*/
+            /*为空则为结果添加一个空项，这样当结果为空时，会返回一个空项*/
             if (!list.Any())
+            {
                 return null;
+            }
             return list;
         }
 
 
 
         /*创建新的库存收购信息*/
-        public static int CreateAccount(string PID, string goodsname, string unit, string quantity, int price, string date)
+        public static int CreatePurchase(string PID, string goodsname, string unit, string quantity, long price, string date)
         {
             /*只能根据id考察合法性*/
             Purchase pr = Find(PID);
@@ -72,8 +74,8 @@ namespace BackEnd.Model
             }
             else
             {
-                throw new Exception("收支信息ID冲突无法添加");
-                return 0;
+                //throw new Exception("收支信息ID冲突无法添加");
+                return -1;
             }
         }
         /*删除一个元组*/

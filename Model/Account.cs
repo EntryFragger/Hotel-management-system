@@ -14,7 +14,7 @@ namespace BackEnd.Model
     {
         public string AccountID { set; get; }//PK
         public string Date { set; get; }
-        public int Amount { set; get; }
+        public long Amount { set; get; }
         /*种类的取值只有两种:income/expenses*/
         public string Type { set; get; }
 
@@ -51,8 +51,8 @@ namespace BackEnd.Model
 
         /*创建新的收支信息，即一笔账*/
         /*创建合法性只能从账目ID考虑*/
-        /*不成功为0，否则不为0*/
-        public static int CreateAccount(string AID, string date, int amount, string type)
+        /*不成功为-1，否则不为-1*/
+        public static int CreateAccount(string AID, string date, long amount, string type)
         {
             Account ac = Find(AID);
             if (ac == null)
@@ -66,8 +66,8 @@ namespace BackEnd.Model
             }
             else
             {
-                throw new Exception("收支号重复");
-                return 0;
+                //throw new Exception("收支号重复");
+                return -1;
             }
         }
     }

@@ -133,8 +133,8 @@ namespace BackEnd.Model
             }
             else
             {
-                throw new Exception("房间已被订出，订单无法添加");
-                return 0;
+                //throw new Exception("房间已被订出，订单无法添加");
+                return -1;
             }
         }
     }
