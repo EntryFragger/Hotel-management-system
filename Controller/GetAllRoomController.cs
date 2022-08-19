@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,6 +23,10 @@ namespace BackEnd.Controller
         [ProducesResponseType(404)]
         public IActionResult GetRoomInfo_ByType(string room_type)
         {
+            if (room_type.Trim().Length == 0)
+            {
+                return BadRequest("输入房间类型为空");
+            }
             List<RoomInfo> list = Room.RoomInfo_ListByType(room_type);
             if (list.Count > 0)
             {
@@ -30,7 +34,7 @@ namespace BackEnd.Controller
             }
             else
             {
-                return NotFound("数据库错误：不存在房间");
+                return NotFound("不存在相应类型的房间");
             }
         }
     }
