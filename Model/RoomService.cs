@@ -51,15 +51,15 @@ namespace BackEnd.Model
             }
             else
             {
-                throw new Exception("房间服务已存在，无法添加");
-                return 0;
+                //throw new Exception("房间服务已存在，无法添加");
+                return -1;
             }
         }
 
         public static int Change_RoomService_Status(string roomid, string time, string status)
         {
             RoomService room_service = Find(roomid, time);
-            if (room_service == null)
+            if (room_service != null)
             {
                 return DBHelper.ExecuteNonQuery("UPDATE ROOMSERVICE SET Status = :Status WHERE RoomID = :RoomID AND Time = :Time",
                     new OracleParameter(":RoomID", roomid),
@@ -69,8 +69,8 @@ namespace BackEnd.Model
             }
             else
             {
-                throw new Exception("房间服务不存在，无法修改");
-                return 0;
+                //throw new Exception("房间服务不存在，无法修改");
+                return -1;
             }
         }
 
@@ -81,6 +81,17 @@ namespace BackEnd.Model
             foreach (DataRow dr in dt.Rows)
             {
                 list.Add(dr.DtToModel<RoomService>());
+            }
+            return list;
+        }
+
+        public static List<RoomServiceInfo> ListAll_RoomServiceInfo()
+        {
+            List<RoomServiceInfo> list = new List<RoomServiceInfo>();
+            DataTable dt = DBHelper.ExecuteTable("SELECT RoomID , Time, Remark, Status FROM ROOMSERVICE");
+            foreach (DataRow dr in dt.Rows)
+            {
+                list.Add(dr.DtToModel<RoomServiceInfo>());
             }
             return list;
         }
@@ -117,6 +128,12 @@ namespace BackEnd.Model
         public string RoomID { set; get; }//PK
         public string Time { set; get; }//PK
         public string Type { set; get; }
-
+    }
+    public class RoomServiceInfo
+    {
+        public string RoomID { set; get; }//PK
+        public string Time { set; get; }//PK
+        public string Remark { set; get; }
+        public string Status { set; get; }
     }
 }
