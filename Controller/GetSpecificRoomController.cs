@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,20 +21,34 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult Room_GetSpecificRoom(string room_id)
+        public IActionResult Room_GetSpecificRoom(string tokenValue, string room_id)
         {
-            if(room_id.Trim().Length == 0)
+            try
             {
-                return BadRequest("输入房间ID为空");
+                //判断token
+                EmployeeInforToken user = JWTHelper.GetUsers(tokenValue);
+                if (user.Department != "Reception")
+                {
+                    return BadRequest("权限不符");
+                }
+                //判断输入合法性
+                if (room_id.Trim().Length == 0)
+                {
+                    return BadRequest("输入房间ID为空");
+                }
+                Room room = Room.Find(room_id);
+                if (room != null)
+                {
+                    return Ok(new JsonResult(room));
+                }
+                else
+                {
+                    return NotFound("房间不存在");
+                }
             }
-            Room room = Room.Find(room_id);
-            if(room != null)
+            catch (OracleException oe)
             {
-                return Ok(room);
-            }
-            else
-            {
-                return NotFound("房间不存在");
+                return BadRequest("数据库请求出错" + oe.Number.ToString());
             }
         }
     }
