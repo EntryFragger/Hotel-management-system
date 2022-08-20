@@ -12,14 +12,14 @@ namespace BackEnd.Model
     /*收支信息*/
     public class Account
     {
-        public string AccountID { set; get; }//PK
+        public long AccountID { set; get; }//PK
         public string Date { set; get; }
         public long Amount { set; get; }
         /*种类的取值只有两种:income/expenses*/
         public string Type { set; get; }
 
         /*根据收支的AccountID返回对应收支的所有信息*/
-        public static Account Find(string ID)
+        public static Account Find(long ID)
         {
             Account ac = null;
             DataTable dt = DBHelper.ExecuteTable("SELECT *  FROM Account WHERE AccountID = :AccountID",
@@ -31,6 +31,21 @@ namespace BackEnd.Model
                 ac = dr.DtToModel<Account>();
             }
             return ac;
+        }
+
+        /*返回已存在ID的最大值，用于生成ID(新ID为最大ID+1)*/
+        public static long MaxID()
+        {
+            long result = 0;
+            Account ac = null;
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(AccountID)  FROM Account");
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                ac = dr.DtToModel<Account>();
+                result = ac.AccountID;                
+            }
+            return result;
         }
 
         /*调用该函数将获取所有收支信息，无收支信息返回null*/
@@ -52,7 +67,7 @@ namespace BackEnd.Model
         /*创建新的收支信息，即一笔账*/
         /*创建合法性只能从账目ID考虑*/
         /*不成功为-1，否则不为-1*/
-        public static int CreateAccount(string AID, string date, long amount, string type)
+        public static int CreateAccount(long AID, string date, long amount, string type)
         {
             Account ac = Find(AID);
             if (ac == null)

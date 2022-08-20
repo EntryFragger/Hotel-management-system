@@ -12,7 +12,7 @@ namespace BackEnd.Model
     /*采购订单类，存储物资采购的信息*/
     public class Purchase
     {
-        public string PurchaseID { set; get; }//PK
+        public long PurchaseID { set; get; }//PK
         public string GoodsName { set; get; }
 
         /*计量单位*/
@@ -23,18 +23,18 @@ namespace BackEnd.Model
         public string Date { set; get; }
 
         /*根据订单的PurchaseID返回对应订单的所有信息*/
-        public static Purchase Find(string ID)
+        public static Purchase Find(long ID)
         {
-            Purchase order = null;
+            Purchase o = null;
             DataTable dt = DBHelper.ExecuteTable("SELECT *  FROM Purchase WHERE PurchaseID = :PurchaseID",
                 new OracleParameter(":PurchaseID", ID)
                 );
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                order = dr.DtToModel<Purchase>();
+                o = dr.DtToModel<Purchase>();
             }
-            return order;
+            return o;
         }
 
         /*调用该函数将获取所有收购的所有信息，无收购返回null*/
@@ -46,7 +46,6 @@ namespace BackEnd.Model
             {
                 list.Add(dr.DtToModel<Purchase>());
             }
-            /*为空则为结果添加一个空项，这样当结果为空时，会返回一个空项*/
             if (!list.Any())
             {
                 return null;
@@ -54,10 +53,23 @@ namespace BackEnd.Model
             return list;
         }
 
-
+        /*返回已存在ID的最大值，用于生成ID(新ID为最大ID+1)*/
+        public static long MaxID()
+        {
+            long result = 0;
+            Purchase ac = null;
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(PurchaseID AS INTEGER)  FROM Purchase");
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                ac = dr.DtToModel<Purchase>();
+                result = ac.PurchaseID;
+            }
+            return result;
+        }
 
         /*创建新的库存收购信息*/
-        public static int CreatePurchase(string PID, string goodsname, string unit, string quantity, long price, string date)
+        public static int CreatePurchase(long PID, string goodsname, string unit, string quantity, long price, string date)
         {
             /*只能根据id考察合法性*/
             Purchase pr = Find(PID);
