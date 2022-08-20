@@ -23,9 +23,15 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult FinicalStatement_Create(string statement_id, string statement_content, long amount,string state)
+        /*审批财物报单*/
+        public IActionResult FinicalStatement_Create(string statement_id, string statement_content, long amount,string state,string token_value)
         {
-            if(statement_id.Trim().Length == 0 || statement_content.Trim().Length == 0 || amount<0 || state.Trim().Length == 0)
+            EmployeeInforToken user = JWTHelper.GetUsers(token_value);
+            if (user.Department != "Management")
+            {
+                return BadRequest("权限不符");
+            }
+            if (statement_id.Trim().Length == 0 || statement_content.Trim().Length == 0 || amount<0 || state.Trim().Length == 0)
             {
                 return BadRequest("输入信息不完整");
             }

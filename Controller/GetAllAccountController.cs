@@ -21,8 +21,14 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult GetAllAcount()
+        /*获取所有收支的信息*/
+        public IActionResult GetAllAcount(string token_value)
         {
+            EmployeeInforToken user = JWTHelper.GetUsers(token_value);
+            if (user.Department != "Management")
+            {
+                return BadRequest("权限不符");
+            }
             List<Account> list = Account.GetAllAccount();
             if (list.Count > 0)
             {

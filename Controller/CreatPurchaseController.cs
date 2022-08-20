@@ -21,9 +21,15 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult Purchase_Create(string purchase_id, string goods_name, string quantity,long price,string date,string unit)
+        /*用于提交一次新的采购信息*/
+        public IActionResult Purchase_Create(string purchase_id, string goods_name, string quantity,long price,string date,string unit,string token_value)
         {
-            if(purchase_id.Trim().Length == 0 || goods_name.Trim().Length == 0 || quantity.Trim().Length == 0 || date.Trim().Length == 0||price<0|| unit.Trim().Length == 0)
+            EmployeeInforToken user = JWTHelper.GetUsers(token_value);
+            if (user.Department != "Management")
+            {
+                return BadRequest("权限不符");
+            }
+            if (purchase_id.Trim().Length == 0 || goods_name.Trim().Length == 0 || quantity.Trim().Length == 0 || date.Trim().Length == 0||price<0|| unit.Trim().Length == 0)
             {
                 return BadRequest("输入信息不完整");
             }

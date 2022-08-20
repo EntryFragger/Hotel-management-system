@@ -21,8 +21,13 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult Order_GetAll()
+        public IActionResult Order_GetAll(string token_value)
         {
+            EmployeeInforToken user = JWTHelper.GetUsers(token_value);
+            if(user.Department!="Management")
+            {
+                return BadRequest("权限不符");
+            }
             List<Order> list = Order.GetAllList();
             if (list.Count > 0)
             {

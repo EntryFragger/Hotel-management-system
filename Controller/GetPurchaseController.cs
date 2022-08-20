@@ -21,8 +21,14 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult GetUndoneJob()
+        /*获取所有采购信息*/
+        public IActionResult GetUndoneJob(string token_value)
         {
+            EmployeeInforToken user = JWTHelper.GetUsers(token_value);
+            if (user.Department != "Management")
+            {
+                return BadRequest("权限不符");
+            }
             List<Purchase> list = Purchase.GetAllList();
             if (list.Count > 0)
             {

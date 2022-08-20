@@ -21,8 +21,14 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult ListOrderByGuest(string customer_id)
+        /*根据顾客的ID返回顾客全部的订单信息*/
+        public IActionResult ListOrderByGuest(string customer_id，string token_value)
         {
+            EmployeeInforToken user = JWTHelper.GetUsers(token_value);
+            if (user.Department != "Management")
+            {
+                return BadRequest("权限不符");
+            }
             List<Order> list = Order.ListByGuest(customer_id);
             if (list.Count > 0)
             {
