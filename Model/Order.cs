@@ -38,8 +38,8 @@ namespace BackEnd.Model
             return order;
         }
 
-        /*返回已存在ID的最大值，用于生成ID(新ID为最大ID+1)*/
-        public static long MaxID()
+        /*用于生成下一个ID*/
+        public static long NextID()
         {
             long result = 0;
             Order ac = null;
@@ -50,7 +50,7 @@ namespace BackEnd.Model
                 ac = dr.DtToModel<Order>();
                 result = ac.OrderID;
             }
-            return result;
+            return result+1;
         }
 
         /*调用该函数将获取所有订单的所有信息，无订单返回null*/

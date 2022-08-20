@@ -33,8 +33,8 @@ namespace BackEnd.Model
             return ac;
         }
 
-        /*返回已存在ID的最大值，用于生成ID(新ID为最大ID+1)*/
-        public static long MaxID()
+        /*用于生成下一个ID*/
+        public static long NextID()
         {
             long result = 0;
             Account ac = null;
@@ -45,7 +45,7 @@ namespace BackEnd.Model
                 ac = dr.DtToModel<Account>();
                 result = ac.AccountID;                
             }
-            return result;
+            return result+1;
         }
 
         /*调用该函数将获取所有收支信息，无收支信息返回null*/

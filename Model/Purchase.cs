@@ -53,8 +53,8 @@ namespace BackEnd.Model
             return list;
         }
 
-        /*返回已存在ID的最大值，用于生成ID(新ID为最大ID+1)*/
-        public static long MaxID()
+        /*用于生成下一个主码ID*/
+        public static long NextID()
         {
             long result = 0;
             Purchase ac = null;
@@ -65,7 +65,7 @@ namespace BackEnd.Model
                 ac = dr.DtToModel<Purchase>();
                 result = ac.PurchaseID;
             }
-            return result;
+            return result+1;
         }
 
         /*创建新的库存收购信息*/
