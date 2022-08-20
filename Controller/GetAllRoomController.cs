@@ -21,20 +21,45 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult GetRoomInfo_ByType(string room_type)
+        public IActionResult GetRoomInfo_ByType(string tokenValue, string room_type)
         {
-            if (room_type.Trim().Length == 0)
+            try
             {
-                return BadRequest("输入房间类型为空");
+                //判断token
+                EmployeeInforToken user = JWTHelper.GetUsers(tokenValue);
+                if (user.Department != "Reception")
+                {
+                    return BadRequest("权限不符");
+                }
+                //判断输入合法性
+                if (room_type.Trim().Length == 0)
+                {
+                    return BadRequest("输入房间类型为空");
+                }
+                //初始化一个list
+                List<RoomInfo> list = null;
+                //判断room_type的特殊性
+                if (room_type == "ALL")
+                {
+                    list = Room.RoomInfo_ListAllType();
+                }
+                else
+                {
+                    list = Room.RoomInfo_ListByType(room_type);
+                }
+                //返回结果
+                if (list.Count > 0)
+                {
+                    return Ok(new JsonResult(list));
+                }
+                else
+                {
+                    return NotFound("不存在相应类型的房间");
+                }
             }
-            List<RoomInfo> list = Room.RoomInfo_ListByType(room_type);
-            if (list.Count > 0)
+            catch (OracleException oe)
             {
-                return Ok(list);
-            }
-            else
-            {
-                return NotFound("不存在相应类型的房间");
+                return BadRequest("数据库请求出错" + oe.Number.ToString());
             }
         }
     }
