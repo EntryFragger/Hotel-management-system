@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,17 +21,31 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult RoomService_GetAll()
+        public IActionResult RoomService_GetAll(string tokenValue)
         {
-            List<RoomServiceInfo> list = RoomService.ListAll_RoomServiceInfo();
-            if (list.Count > 0)
+            try
             {
-                return Ok(list);
+                //判断token
+                EmployeeInforToken user = JWTHelper.GetUsers(tokenValue);
+                if (user.Department != "Logistics")
+                {
+                    return BadRequest("权限不符");
+                }
+                List<RoomServiceInfo> list = RoomService.ListAll_RoomServiceInfo();
+                if (list.Count > 0)
+                {
+                    return Ok(new JsonResult(list));
+                }
+                else
+                {
+                    return NotFound("不存在房间服务");
+                }
             }
-            else
+            catch (OracleException oe)
             {
-                return NotFound("不存在房间服务");
+                return BadRequest("数据库请求出错" + oe.Number.ToString());
             }
+            
         }
     }
 }
