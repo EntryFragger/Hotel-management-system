@@ -10,7 +10,7 @@ using BackEnd.Model;
 using Newtonsoft.Json;
 using System.Security.Cryptography;
 
-namespace BackEnd.DBUtility
+namespace BackEnd.Utility
 {
     public class JWTHelper
     {
