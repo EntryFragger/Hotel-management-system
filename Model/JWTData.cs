@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BackEnd.DBUtility;
+using BackEnd.Utility;
 
 namespace BackEnd.Model
 {
@@ -29,7 +29,7 @@ namespace BackEnd.Model
         /// <summary>
         /// 用户ID
         /// </summary>
-        public string ID { get; set; }
+        public long ID { get; set; }
         /// <summary>
         /// 用户所属部门
         /// </summary>
