@@ -43,6 +43,17 @@ namespace BackEnd.Model
             return list;
         }
 
+        public static List<RoomInfo> RoomInfo_ListAllType()
+        {
+            List<RoomInfo> list = new List<RoomInfo>();
+            DataTable dt = DBHelper.ExecuteTable("SELECT RoomID , RoomType , RoomStatus FROM ROOM");
+            foreach (DataRow dr in dt.Rows)
+            {
+                list.Add(dr.DtToModel<RoomInfo>());
+            }
+            return list;
+        }
+
         public static List<Room> ListByStatus(string status)
         {
             List<Room> list = new List<Room>();
