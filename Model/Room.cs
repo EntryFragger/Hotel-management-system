@@ -67,6 +67,20 @@ namespace BackEnd.Model
             return list;
         }
 
+        public static int FindRoomPrice(string ID)//查找某个房间的价格
+        {
+            int Price = 0;
+            DataTable dt = DBHelper.ExecuteTable("SELECT RoomPrice FROM ROOM WHERE RoomID = :RoomID",
+                new OracleParameter(":RoomID", ID)
+                );
+            if (dt.Rows.Count > 0)
+            {
+                String dm = dt.Rows[0].ToString();
+                Price = int.Parse(dm);
+            }
+            return Price;
+        }
+
         public static int Change_Room_Status(string ID, string status)
         {
             Room room = Find(ID);
@@ -125,5 +139,10 @@ namespace BackEnd.Model
         public string RoomID { set; get; }//PK
         public string RoomType { set; get; }
         public string RoomStatus { set; get; }
+    }
+    public class Type_Price
+    {
+        public string RoomType { set; get; }
+        public string RoomPrice { set; get; }
     }
 }
