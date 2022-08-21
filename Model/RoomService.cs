@@ -15,9 +15,9 @@ namespace BackEnd.Model
         public string Time { set; get; }//PK
         public string Type { set; get; }
         public string Remark { set; get; }
-        public string Amount { set; get; }
+        public long Amount { set; get; }
         public string Status { set; get; }
-        public string EmployeeID { set; get; }
+        public long EmployeeID { set; get; }
 
         public static RoomService Find(string roomid, string time)
         {
@@ -34,8 +34,33 @@ namespace BackEnd.Model
             return room_service;
         }
 
-        public static int AddRoomService(string roomid, string time, string type, string remark, string amount, string status, string employee_id)
+        public static long Jobdistribution()
         {
+            long lucky_employee_id = -1;
+            DataTable dt = DBHelper.ExecuteTable("SELECT distinct(EmployeeID) FROM EMPLOYEE");
+            if(dt.Rows.Count == 0)
+            {
+                return lucky_employee_id;
+            }
+            else
+            {
+                int employee_number = dt.Rows.Count;
+                Random rd = new Random();
+                int number = rd.Next(0, employee_number);
+                //DataRow dr = dt.Rows[number];
+                String dm = dt.Rows[number].ToString();
+                lucky_employee_id = long.Parse(dm);
+                return lucky_employee_id;
+            }
+        }
+
+        public static int AddRoomService(string roomid, string time, string type, string remark, long amount, string status, long employee_id)
+        {
+            Room room = Room.Find(roomid);
+            if(room == null)
+            {
+                return -1;
+            }
             RoomService room_service = Find(roomid, time);
             if (room_service == null)
             {
@@ -96,7 +121,7 @@ namespace BackEnd.Model
             return list;
         }
 
-        public static List<RoomJobInfo> GetUndoneJobInfo(string employee_id)
+        public static List<RoomJobInfo> GetUndoneJobInfo(long employee_id)
         {
             List<RoomJobInfo> list = new List<RoomJobInfo>();
             DataTable dt = DBHelper.ExecuteTable("SELECT RoomID , Time, Type FROM ROOMSERVICE WHERE Status = :Status AND EmployeeID = :EmployeeID",
@@ -108,6 +133,20 @@ namespace BackEnd.Model
                 list.Add(dr.DtToModel<RoomJobInfo>());
             }
             return list;
+        }
+
+        public static string GetAmount(string type)
+        {
+            string amount = "";
+            DataTable dt = DBHelper.ExecuteTable("SELECT Amount FROM TYPEAMOUNT WHERE Type = :Type",
+                new OracleParameter(":Type", type)
+                );
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                amount = dr.DtToModel<string>();
+            }
+            return amount;
         }
 
         /*public static List<RoomService> ListByRoom(string ID)
@@ -136,6 +175,9 @@ namespace BackEnd.Model
         public string Remark { set; get; }
         public string Status { set; get; }
     }
+    public class TypeAmount
+    {
+        public string Type { set; get; }
+        public long Amount { set; get; }
+    }
 }
-
-
