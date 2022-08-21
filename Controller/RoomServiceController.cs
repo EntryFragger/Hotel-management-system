@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,7 +32,7 @@ namespace BackEnd.Controller
                     return BadRequest("权限不符");
                 }
                 //获取当前用户的id
-                string id = user.ID;
+                long id = user.ID;
                 //返回结果
                 List<RoomJobInfo> list = RoomService.GetUndoneJobInfo(id);
                 if (list.Count > 0)
@@ -57,7 +57,7 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult CreateRoomService(string tokenValue, string room_id, string time, string type, string remark)
+        public IActionResult CreateRoomService(string tokenValue, string room_id, string time, string type, string remark, long amount)
         {
             try
             {
@@ -68,16 +68,23 @@ namespace BackEnd.Controller
                     return BadRequest("权限不符");
                 }
                 //判断输入合法性
-                if (room_id.Trim().Length == 0 || time.Trim().Length == 0 || remark.Trim().Length == 0 )
+                if (room_id.Trim().Length == 0 || time.Trim().Length == 0 || remark.Trim().Length == 0 || type.Trim().Length == 0 || amount < 0)
                 {
-                    return BadRequest("输入信息不完整");
+                    return BadRequest("输入信息不完整或金额非法");
                 }
                 if (RoomService.GetAmount(type) == "")
                 {
                     return BadRequest("输入服务类型错误");
                 }
+                if(type == "维修" || type == "清洁")
+                {
+                    if(amount != 0)
+                    {
+                        return BadRequest("维修与清洁服务价格错误");
+                    }
+                }
                 //返回结果
-                int issuccess = RoomService.AddRoomService(room_id, time, type, remark, RoomService.GetAmount(type), "UnDone", "");
+                int issuccess = RoomService.AddRoomService(room_id, time, type, remark, amount, "UnDone", RoomService.Jobdistribution());
                 if (issuccess != -1)
                 {
                     return Ok("住房服务创建成功");
@@ -156,10 +163,9 @@ namespace BackEnd.Controller
                     string current_status = RoomService.Find(room_id, time).Status;
                     if(current_status == "Done")
                     {
-                        string aid = "temporate_aid";
-                        string date = "get_now_date";
-                        int amount = 6;
-                        //string amount = RoomService.Find(room_id, time).Amount;
+                        long aid = Account.NextID();
+                        string date = DateTime.Now.ToLongDateString();
+                        long amount = RoomService.Find(room_id, time).Amount;
                         string type = "income";
                         Account.CreateAccount(aid, date, amount, type);
                     }
