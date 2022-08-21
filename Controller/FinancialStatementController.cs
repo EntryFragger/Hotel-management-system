@@ -50,7 +50,7 @@ namespace BackEnd.Controllers
         {
             try
             {
-                string statementID = FinancialStatement.NextStatementID();
+                long statementID = FinancialStatement.NextStatementID();
                 EmployeeInforToken user = JWTHelper.GetUsers(tokenValue);
                 FinancialStatement.Add(user.ID, statementID, statementContent, amount, state);
                 return Ok("提交财务报单成功");
@@ -82,5 +82,29 @@ namespace BackEnd.Controllers
                 return NotFound("不存在财务报单");
             }
         }
+        /// <summary>
+        /// 财务部调用审批财务报单，会将财务报单的状态从未通过改为通过
+        /// </summary>
+        /// <param name="token_value"></param>
+        /// <param name="sID"></param>
+        /// <returns></returns>
+        public IActionResult GetFinancialStatement(string token_value,long sID)
+        {
+            EmployeeInforToken user = JWTHelper.GetUsers(token_value);
+            if (user.Department != "Finance")
+            {
+                return BadRequest("权限不符");
+            }
+            int success=FinancialStatement.Change_FinicalStatement_Status(sID);
+            if (success != -1)
+            {
+                return Ok("审批成功");
+            }
+            else
+            {
+                return NotFound("不存在财务报单");
+            }
+        }
+
     }
 }
