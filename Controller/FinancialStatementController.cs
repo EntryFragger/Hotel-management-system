@@ -61,36 +61,6 @@ namespace BackEnd.Controllers
             }
         }
         /// <summary>
-        /// /*审批财物报单*/
-        /// </summary>
-        /// <param name="statement_id"></param>
-        /// <param name="statement_content"></param>
-        /// <param name="amount"></param>
-        /// <param name="state"></param>
-        /// <param name="token_value"></param>
-        /// <returns></returns>
-        public IActionResult FinicalStatement_Create(string statement_id, string statement_content, long amount, string state, string token_value)
-        {
-            EmployeeInforToken user = JWTHelper.GetUsers(token_value);
-            if (user.Department != "Finance")
-            {
-                return BadRequest("权限不符");
-            }
-            if (statement_id.Trim().Length == 0 || statement_content.Trim().Length == 0 || amount < 0 || state.Trim().Length == 0)
-            {
-                return BadRequest("输入信息不完整");
-            }
-            int issuccess = FinicalStatement.Add(statement_id, statement_content, amount, state);
-            if (issuccess != -1)
-            {
-                return Ok("财务报单创建成功");
-            }
-            else
-            {
-                return NotFound("财务报单创建失败");
-            }
-        }
-        /// <summary>
         /// 获取所有财务报单，面向财务报
         /// </summary>
         /// <param name="token_value"></param>
