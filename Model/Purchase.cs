@@ -19,7 +19,7 @@ namespace BackEnd.Model
         public string Unit { set; get; }
 
         public string Quantity { set; get; }
-        public long Price { set; get; }
+        public float Price { set; get; }
         public string Date { set; get; }
 
         /*根据订单的PurchaseID返回对应订单的所有信息*/
@@ -69,7 +69,7 @@ namespace BackEnd.Model
         }
 
         /*创建新的库存收购信息*/
-        public static int CreatePurchase(long PID, string goodsname, string unit, string quantity, long price, string date)
+        public static int CreatePurchase(long PID, string goodsname, string unit, string quantity, float price, string date)
         {
             /*只能根据id考察合法性*/
             Purchase pr = Find(PID);

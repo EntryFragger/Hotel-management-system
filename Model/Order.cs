@@ -11,17 +11,18 @@ namespace BackEnd.Model
 {
     public class Order
     {
-        /*需要后端随机生成的ID都是long，不需要随机生成的ID都是long*/
+        /*需要后端随机生成的ID都是long，不需要随机生成的ID都是string*/
         public long OrderID { set; get; }//PK
         public string RoomID { set; get; }
         public string CustomerID { set; get; }
         public string StartTime { set; get; }
         public string EndTime { set; get; }
+        public long Days { set; get; }//入住天数
 
         /*status取值 ed是已经完成 ing是正在进行*/
         public string OrderStatus { set; get; }
         public string Violation { set; get; }
-        public long Amount { set; get; }
+        public float Amount { set; get; }
 
         /*根据订单的OrderId返回对应订单的所有信息*/
         public static Order Find(long ID)
@@ -124,7 +125,7 @@ namespace BackEnd.Model
 
         /*新创建的订单一定是进行中，所以参数中没有订单状态*/
         /*创建合法性问题没考虑订单ID的问题，只考虑了该房间是否仍然有订单处于进行状态*/
-        public static int CreateOrder(long OID, string RID, string CID, string starttime, string endtime, long price)
+        public static int CreateOrder(long OID, string RID, string CID, string starttime, string endtime,long Days, float price)
         {
             /*考察订单合法性，确定房间是否被重复定下，假设订单ID这种东西*/
             List<Order> list = ListByRoom(RID);
@@ -136,12 +137,13 @@ namespace BackEnd.Model
 
             if (dt.Rows.Count == 0)
             {
-                return DBHelper.ExecuteNonQuery("INSERT INTO Order(OrderID,RoomID,CustomerID,StartTime,EndTime,OrderStatus,Violation,Amount) VALUES(:OrderID,:RoomID,:CustomerID,:StartTime,EndTime,OrderStatus,Violation,Amount)",
+                return DBHelper.ExecuteNonQuery("INSERT INTO Order(OrderID,RoomID,CustomerID,StartTime,EndTime,Days,OrderStatus,Violation,Amount) VALUES(:OrderID,:RoomID,:CustomerID,:StartTime,:EndTime,:Days,:OrderStatus,:Violation,:Amount)",//后面几个应该也有冒号吧，添加了days
                     new OracleParameter(":OrderID", OID),
                     new OracleParameter(":RoomID", RID),
                     new OracleParameter(":CustomerID", CID),
                     new OracleParameter(":StartTime", starttime),
                     new OracleParameter(":EndTime", endtime),
+                     new OracleParameter(":Days", Days),//添加了days
                     new OracleParameter(":OrderStatus", ing),
                      new OracleParameter(":Violation", null),
                     new OracleParameter(":Amount", price)
@@ -155,15 +157,15 @@ namespace BackEnd.Model
         }
 
         /*调用该函数修改订单的状态，将未完成的订单修改为已经完成*/
-        public static int Change_Order_Status(long order_id)
+       public static int Change_Order_Status(long order_id)
         {
             string status = "done";
             Order order = Find(order_id);
-            if (room_service != null)
+            if (order!= null)
             {
                 return DBHelper.ExecuteNonQuery("UPDATE Order SET OrderStatus = :OrderStatus WHERE OrderID = :OrderID",
                     new OracleParameter(":OrderID", order_id),
-                    new OracleParameter(":OrderStatus", status)
+                    new OracleParameter(":OrderStatus", statu)
                     );
             }
             else

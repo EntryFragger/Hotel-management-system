@@ -14,7 +14,7 @@ namespace BackEnd.Model
     {
         public long AccountID { set; get; }//PK
         public string Date { set; get; }
-        public long Amount { set; get; }
+        public float Amount { set; get; }
         /*种类的取值只有两种:income/expenses*/
         public string Type { set; get; }
 
@@ -67,7 +67,7 @@ namespace BackEnd.Model
         /*创建新的收支信息，即一笔账*/
         /*创建合法性只能从账目ID考虑*/
         /*不成功为-1，否则不为-1*/
-        public static int CreateAccount(long AID, string date, long amount, string type)
+        public static int CreateAccount(long AID, string date, float amount, string type)
         {
             Account ac = Find(AID);
             if (ac == null)
