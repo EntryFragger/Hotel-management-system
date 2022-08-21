@@ -58,7 +58,7 @@ namespace BackEnd.Model
         {
             long result = 0;
             Purchase ac = null;
-            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(PurchaseID AS INTEGER)  FROM Purchase");
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(PurchaseID)  FROM Purchase");
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];

@@ -44,7 +44,7 @@ namespace BackEnd.Model
         {
             long result = 0;
             Order ac = null;
-            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(OrderID AS INTEGER)  FROM Order");
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(OrderID)  FROM Order");
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
@@ -104,6 +104,7 @@ namespace BackEnd.Model
                 return null;
             return list;
         }
+
 
         /*根据状态列出订单信息，预留的可能使用的接口*/
         /*status取值 ed是已经完成 ing是正在进行*/
