@@ -20,7 +20,7 @@ namespace BackEnd.Model
 
         public string Quantity { set; get; }
         public float Price { set; get; }
-        public string Date { set; get; }
+        public string Pdate { set; get; }
 
         /*根据订单的PurchaseID返回对应订单的所有信息*/
         public static Purchase Find(long ID)
@@ -75,13 +75,13 @@ namespace BackEnd.Model
             Purchase pr = Find(PID);
             if (pr == null)
             {
-                return DBHelper.ExecuteNonQuery("INSERT INTO Account(PurchaseID,GoodsName,Unit,Quantity,Price,Date) VALUES(:PurchaseID,:GoodsName,:Unit,:Price,:Date)",
+                return DBHelper.ExecuteNonQuery("INSERT INTO Account(PurchaseID,GoodsName,Unit,Quantity,Price,Pdate) VALUES(:PurchaseID,:GoodsName,:Unit,:Price,:Pdate)",
                     new OracleParameter(":PurchaseID", PID),
                     new OracleParameter(":GoodsName", goodsname),
                     new OracleParameter(":Unit", unit),
                     new OracleParameter(":Quantity", quantity),
                     new OracleParameter(":Price", price),
-                    new OracleParameter(":Date", date)
+                    new OracleParameter(":Pdate", date)
                     );
             }
             else
