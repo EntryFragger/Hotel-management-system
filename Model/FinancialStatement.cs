@@ -10,30 +10,36 @@ namespace BackEnd.Model
 {
     public class FinancialStatement
     {
-        public string ID { set; get; }
+        public long EmployeeID { set; get; }
         public long StatementID { set; get; }
         public string StatementContent { set; get; }
         public long Amount { set; get; }
         public string State { set; get; }
         public static long NextStatementID()
         {
-            long result = 0;
-            FinancialStatement ac = null;
-            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(StatementID)  FROM FinancialStatement");
+            long MaxID = -1;
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(StatementID) FROM FINANCIALSTATEMENT ");
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                ac = dr.DtToModel<FinancialStatement>();
-                result = ac.StatementID;
+                MaxID = long.Parse(dt.Rows[0]["STATEMENTID"].ToString()) + 1;
             }
-            return result + 1;
+            return MaxID;
         }
-        public static List<FinancialStatement> GetList(string ID)
+        public static List<FinancialStatement> GetList(long EmployeeID)
         {
             List<FinancialStatement> list = new List<FinancialStatement>();
-            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM FINANCIALSTATEMENT WHERE ID=:ID",
-                new OracleParameter(":ID", ID)
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM FINANCIALSTATEMENT WHERE EmployeeID=:EmployeeID",
+                new OracleParameter(":EmployeeID", EmployeeID)
                 );
+            foreach (DataRow dr in dt.Rows)
+                list.Add(dr.DtToModel<FinancialStatement>());
+            return list;
+        }
+        public static List<FinancialStatement> GetList()
+        {
+            List<FinancialStatement> list = new List<FinancialStatement>();
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM FINANCIALSTATEMENT " );
             foreach (DataRow dr in dt.Rows)
                 list.Add(dr.DtToModel<FinancialStatement>());
             return list;
@@ -51,6 +57,32 @@ namespace BackEnd.Model
             }
             return financialStatement;
 
+        }
+        public static int Add(long employeeID, long statementID, string statementcontent, long amount, string state)
+        {
+            FinancialStatement financialStatement = Find(statementID);
+            if(financialStatement!=null)
+            {
+                DBHelper.ExecuteNonQuery("DELETE FROM FINANCIALSTATEMENT WHERE StatementID = :StatementID",
+                   new OracleParameter(":StatementID", statementID)
+                   );
+                return DBHelper.ExecuteNonQuery("INSERT INTO FINANCIALSTATEMENT(EmployeeID,StatementID,StatementContent,Amount,State)" +
+                "VALUES(:EmployeeID,:StatementID,:StatementContent,:Amount,:State) ",
+                  new OracleParameter(":EmployeeID", employeeID),
+                  new OracleParameter(":StatementID", statementID),
+                  new OracleParameter(":StatementContent", statementcontent),
+                  new OracleParameter(":Amount", amount),
+                  new OracleParameter(":State", state)
+                  );
+            }
+            return DBHelper.ExecuteNonQuery("INSERT INTO FINANCIALSTATEMENT(EmployeeID,StatementID,StatementContent,Amount,State)" +
+                 "VALUES(:EmployeeID,:StatementID,:StatementContent,:Amount,:State) ",
+                   new OracleParameter(":EmployeeID", employeeID),
+                   new OracleParameter(":StatementID", statementID),
+                   new OracleParameter(":StatementContent", statementcontent),
+                   new OracleParameter(":Amount", amount),
+                   new OracleParameter(":State", state)
+                   );
         }
         /// <summary>
         /// 将财务报单的状态从未通过修改为已通过
@@ -75,5 +107,6 @@ namespace BackEnd.Model
             }
         }
     }
-    
 }
+
+  
