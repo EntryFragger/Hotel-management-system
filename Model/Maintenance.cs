@@ -12,7 +12,7 @@ namespace BackEnd.Model
     {
         public string ItemId { set; get; }
         public string EmployeeId { set; get; }
-        public string Date { set; get; }
+        public string mDate { set; get; }
         public string ItemName { set; get; }
         public static Maintenance Find(string itemID)
         {
@@ -29,18 +29,18 @@ namespace BackEnd.Model
         public static List<Maintenance> GetList()
         {
             List<Maintenance> list = new List<Maintenance>();
-            DataTable dt = DBHelper.ExecuteTable("SELECT Date,ItemID,EmployeeID,ItemName FROM MAINTENANCE");
+            DataTable dt = DBHelper.ExecuteTable("SELECT mDate,ItemID,EmployeeID,ItemName FROM MAINTENANCE");
             foreach (DataRow dr in dt.Rows)
                 list.Add(dr.DtToModel<Maintenance>());
             return list;
         }
-        public static int Add(string itemID, string employeeID, string date, string itemName)
+        public static int Add(string itemID, string employeeID, string mdate, string itemName)
         {
-            return DBHelper.ExecuteNonQuery("INSERT INTO MAINTENANCE(ItemID,EmployeeID, Date,ItemName)" +
-                "VALUES(:ItemID,:EmployeeID, :Date,:ItemName) ",
+            return DBHelper.ExecuteNonQuery("INSERT INTO MAINTENANCE(ItemID,EmployeeID, mDate,ItemName)" +
+                "VALUES(:ItemID,:EmployeeID, :mDate,:ItemName) ",
               new OracleParameter(":ItemID", itemID),
               new OracleParameter(":EmployeeID", employeeID),
-              new OracleParameter(":Date", date),
+              new OracleParameter(":Date", mdate),
               new OracleParameter(":ItemName", itemName)
               );
         }
