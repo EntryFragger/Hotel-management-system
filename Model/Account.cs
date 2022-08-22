@@ -74,7 +74,7 @@ namespace BackEnd.Model
             {
                 return DBHelper.ExecuteNonQuery("INSERT INTO Account(AccountID,Adate,Amount,Type) VALUES(:AccountID,:Adate,:Amount,:Type)",
                     new OracleParameter(":AccountID", AID),
-                    new OracleParameter(":Date", date),
+                    new OracleParameter(":Adate", date),
                     new OracleParameter(":Amount", amount),
                     new OracleParameter(":Type", type)
                     );
