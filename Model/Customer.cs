@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.StaticFiles;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -16,6 +16,7 @@ namespace BackEnd.Model
         public string PhoneNum { set; get; }
         public string Area { set; get; }
         public int VipLv { set; get; }
+   
         public static Customer Find(string ID)
         {
             Customer Customer = null;
@@ -29,7 +30,7 @@ namespace BackEnd.Model
             }
             return Customer;
         }
-        public static int AddCustomer(string ID, string Name, string Gender, string PhoneNum,string Area,int VipLv)
+        public static int AddCustomer(string ID, string Name, string Gender, string PhoneNum,string Area,int VipLv)//添加顾客
         {
             Customer Customer = Find(ID);
             if (Customer == null)
@@ -45,19 +46,19 @@ namespace BackEnd.Model
             }
             else
             {
-                throw new Exception("顾客已存在，无法添加");
+                //throw new Exception("顾客已存在，无法添加");
                 return -1;
             }
         }
-        public static int DeleteCustomer(string ID)
+      /*  public static int DeleteCustomer(string ID)
         {
             return DBHelper.ExecuteNonQuery("DELETE FROM Customer WHERE CustomerID = :CustomerID",
                 new OracleParameter(":CustomerID", ID)
                 );
-        }
-        public static int ChangeVip(string ID, int VipLv)
+        }*/
+        public static int ChangeVip(string ID, int VipLv)//修改vip等级
         {
-            return DBHelper.ExecuteNonQuery("UPDATE Customer SET CustomerID = :CustomerID,VipLv=:VipLv WHERE CustomerID = :CustomerID",
+            return DBHelper.ExecuteNonQuery("UPDATE Customer SET CustomerID = :CustomerID,VipLv=:VipLv  FROM Customer WHERE CustomerID = :CustomerID",
                    new OracleParameter(":CustomerID", ID),
                      new OracleParameter(":VipLv", VipLv)
                 );
@@ -91,6 +92,27 @@ namespace BackEnd.Model
             }
             return list;
         }
-
+        public static int FindVip(string ID)//查询某个顾客vip等级
+        {
+            int vip = 0;
+            DataTable dt = DBHelper.ExecuteTable("SELECT VipLv FROM Customer WHERE CustomerID = :CustomerID",
+                new OracleParameter(":CustomerID", ID)
+                );
+            if (dt.Rows.Count > 0)
+            {
+                String dm = dt.Rows[0].ToString();
+                vip = int.Parse(dm);
+            }
+            return vip;
+        }
+        public class CusomerInfo
+        {
+            public string CustomerID { set; get; }//PK
+            public string Name { set; get; }
+            public string Gender { set; get; }
+            public string PhoneNum { set; get; }
+            public string Area { set; get; }
+        }
     }
+
 }
