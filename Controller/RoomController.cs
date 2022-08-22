@@ -37,7 +37,7 @@ namespace BackEnd.Controller
                     return BadRequest("输入房间类型为空");
                 }
                 //初始化一个list
-                List<RoomInfo> list = null;
+                List<Room> list = null;
                 //判断room_type的特殊性
                 if (room_type == "ALL")
                 {
