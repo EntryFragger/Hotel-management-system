@@ -11,7 +11,7 @@ namespace BackEnd.Model
     public class Maintenance
     {
         public string ItemId { set; get; }
-        public string EmployeeId { set; get; }
+        public long EmployeeId { set; get; }
         public string mDate { set; get; }
         public string ItemName { set; get; }
         public static Maintenance Find(string itemID)
@@ -34,7 +34,7 @@ namespace BackEnd.Model
                 list.Add(dr.DtToModel<Maintenance>());
             return list;
         }
-        public static int Add(string itemID, string employeeID, string mdate, string itemName)
+        public static int Add(string itemID, long employeeID, string mdate, string itemName)
         {
             return DBHelper.ExecuteNonQuery("INSERT INTO MAINTENANCE(ItemID,EmployeeID, mDate,ItemName)" +
                 "VALUES(:ItemID,:EmployeeID, :mDate,:ItemName) ",
