@@ -20,11 +20,9 @@ namespace BackEnd.Controller
     [ApiController]
     public class AccountController : ControllerBase
     {
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        
         public IActionResult GetAllAcount(string token_value)
         {
             EmployeeInforToken user = JWTHelper.GetUsers(token_value);

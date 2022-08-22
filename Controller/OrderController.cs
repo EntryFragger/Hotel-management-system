@@ -16,10 +16,9 @@ namespace BackEnd.Controller
     [ApiController]
     public class OrderController : ControllerBase
     {
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
         /// <summary>
         /// 获取所有订单的信息
         /// </summary>
@@ -32,7 +31,7 @@ namespace BackEnd.Controller
             {
                 return BadRequest("权限不符");
             }
-            List<Order> list = Order.GetAllList();
+            List<RoomOrder> list = Order.GetAllList();
             if (list!=null)
             {
                 return Ok(new JsonResult(list));
@@ -43,6 +42,9 @@ namespace BackEnd.Controller
             }
         }
 
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         /// <summary>
         /// 根据客人CustomerID找出其所有的订单
         /// </summary>
@@ -56,7 +58,7 @@ namespace BackEnd.Controller
             {
                 return BadRequest("权限不符");
             }
-            List<Order> list = Order.ListByGuest(customer_id);
+            List<RoomOrder> list = Order.ListByGuest(customer_id);
             if (list != null)
             {
                 return Ok(new JsonResult(list));
@@ -66,6 +68,10 @@ namespace BackEnd.Controller
                 return NotFound("该顾客不存在订单");
             }
         }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public IActionResult Room_Checkout(string tokenValue, string room_id)
         {
             try
@@ -94,8 +100,8 @@ namespace BackEnd.Controller
                     return BadRequest("该房间未入住，无需退房");
                 }
                 //一切正常，开始进行退房操作
-                List<Order> list = Order.ListByRoom(room_id);
-                Order or = null;
+                List<RoomOrder> list = RoomOrder.ListByRoom(room_id);
+                RoomOrder or = null;
                 for(int i=0;i<list.Count;i++)
                 {
                     if(list[i].OrderStatus=="ing")
@@ -103,7 +109,7 @@ namespace BackEnd.Controller
                         or = list[i];
                     }
                 }
-                int issuccess_one=Order.Change_Order_Status(or.OrderID);
+                int issuccess_one=RoomOrder.Change_Order_Status(or.OrderID);
                 /*以上为改变订单状态,成功改变订单状态则开始改变坊间状态*/
                 if (issuccess_one != -1)
                 {
