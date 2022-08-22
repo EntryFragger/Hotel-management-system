@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Model;
-using BackEnd.DBUtility;
+using BackEnd.Utility;
 using Oracle.ManagedDataAccess.Client;
 
 namespace BackEnd.Controllers
@@ -41,7 +41,7 @@ namespace BackEnd.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult SubmitMaintenanceInfo(string tokenValue,string date,string itemID,string employeeID)
+        public IActionResult SubmitMaintenanceInfo(string tokenValue,string date,string itemID,long employeeID)
         {
             try
             {
