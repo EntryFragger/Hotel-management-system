@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.StaticFiles;
+ouusing Microsoft.AspNetCore.StaticFiles;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace BackEnd.Model
     public class Account
     {
         public long AccountID { set; get; }//PK
-        public string Date { set; get; }
+        public string Adate { set; get; }
         public float Amount { set; get; }
         /*种类的取值只有两种:income/expenses*/
         public string Type { set; get; }
@@ -72,7 +72,7 @@ namespace BackEnd.Model
             Account ac = Find(AID);
             if (ac == null)
             {
-                return DBHelper.ExecuteNonQuery("INSERT INTO Account(AccountID,Date,Amount,Type) VALUES(:AccountID,:Date,:Amount,:Type)",
+                return DBHelper.ExecuteNonQuery("INSERT INTO Account(AccountID,Adate,Amount,Type) VALUES(:AccountID,:Adate,:Amount,:Type)",
                     new OracleParameter(":AccountID", AID),
                     new OracleParameter(":Date", date),
                     new OracleParameter(":Amount", amount),
