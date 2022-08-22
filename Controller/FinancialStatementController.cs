@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Model;
-using BackEnd.DBUtility;
+using BackEnd.Utility;
 using Oracle.ManagedDataAccess.Client;
 
 namespace BackEnd.Controllers
@@ -60,12 +60,15 @@ namespace BackEnd.Controllers
                 return BadRequest("数据库请求出错" + oe.Number.ToString());
             }
         }
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         /// <summary>
-        /// 获取所有财务报单，面向财务报
+        /// 获取所有财务报单，面向财务部
         /// </summary>
         /// <param name="token_value"></param>
         /// <returns></returns>
-        public IActionResult GetFinancialStatement(string token_value)
+        public IActionResult GetAllFinancialStatement(string token_value)
         {
             EmployeeInforToken user = JWTHelper.GetUsers(token_value);
             if (user.Department != "Finance")
@@ -73,29 +76,25 @@ namespace BackEnd.Controllers
                 return BadRequest("权限不符");
             }
             List<FinancialStatement> list = FinancialStatement.GetList();
-            if (list != null)
-            {
-                return Ok(list);
-            }
-            else
-            {
-                return NotFound("不存在财务报单");
-            }
+             return Ok(new JsonResult(list));
         }
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         /// <summary>
         /// 财务部调用审批财务报单，会将财务报单的状态从未通过改为通过
         /// </summary>
         /// <param name="token_value"></param>
         /// <param name="sID"></param>
         /// <returns></returns>
-        public IActionResult GetFinancialStatement(string token_value,long sID)
+        public IActionResult GetFinancialStatement(string token_value, long sID)
         {
             EmployeeInforToken user = JWTHelper.GetUsers(token_value);
             if (user.Department != "Finance")
             {
                 return BadRequest("权限不符");
             }
-            int success=FinancialStatement.Change_FinicalStatement_Status(sID);
+            int success = FinancialStatement.Change_FinicalStatement_Status(sID);
             if (success != -1)
             {
                 return Ok("审批成功");
@@ -105,6 +104,5 @@ namespace BackEnd.Controllers
                 return NotFound("不存在财务报单");
             }
         }
-
     }
 }
