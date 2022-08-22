@@ -30,26 +30,26 @@ namespace BackEnd.Model
             return room;
         }
 
-        public static List<RoomInfo> RoomInfo_ListByType(string type)
+        public static List<Room> RoomInfo_ListByType(string type)
         {
-            List<RoomInfo> list = new List<RoomInfo>();
-            DataTable dt = DBHelper.ExecuteTable("SELECT RoomID , RoomType , RoomStatus FROM ROOM WHERE RoomType = :RoomType",
+            List<Room> list = new List<Room>();
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM ROOM WHERE RoomType = :RoomType",
                 new OracleParameter(":RoomType", type)
                 );
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<RoomInfo>());
+                list.Add(dr.DtToModel<Room>());
             }
             return list;
         }
 
-        public static List<RoomInfo> RoomInfo_ListAllType()
+        public static List<Room> RoomInfo_ListAllType()
         {
-            List<RoomInfo> list = new List<RoomInfo>();
-            DataTable dt = DBHelper.ExecuteTable("SELECT RoomID , RoomType , RoomStatus FROM ROOM");
+            List<Room> list = new List<Room>();
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM ROOM");
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<RoomInfo>());
+                list.Add(dr.DtToModel<Room>());
             }
             return list;
         }
