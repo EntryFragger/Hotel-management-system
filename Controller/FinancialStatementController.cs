@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +21,7 @@ namespace BackEnd.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult GetFinancialStatement(string tokenValue)
         {
             try
@@ -46,7 +47,8 @@ namespace BackEnd.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult SubmitFinancialStatement(string tokenValue,string statementContent,long amount,string state)
+        [ProducesResponseType(404)]
+        public IActionResult SubmitFinancialStatement(string tokenValue, string statementContent, long amount, string state)
         {
             try
             {
@@ -63,6 +65,7 @@ namespace BackEnd.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         /// <summary>
         /// 获取所有财务报单，面向财务部
         /// </summary>
@@ -76,11 +79,12 @@ namespace BackEnd.Controllers
                 return BadRequest("权限不符");
             }
             List<FinancialStatement> list = FinancialStatement.GetList();
-             return Ok(new JsonResult(list));
+            return Ok(new JsonResult(list));
         }
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         /// <summary>
         /// 财务部调用审批财务报单，会将财务报单的状态从未通过改为通过
         /// </summary>
