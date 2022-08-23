@@ -1,4 +1,4 @@
-ouusing Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.StaticFiles;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
@@ -43,9 +43,9 @@ namespace BackEnd.Model
             {
                 DataRow dr = dt.Rows[0];
                 ac = dr.DtToModel<Account>();
-                result = ac.AccountID;                
+                result = ac.AccountID;
             }
-            return result+1;
+            return result + 1;
         }
 
         /*调用该函数将获取所有收支信息，无收支信息返回null*/
