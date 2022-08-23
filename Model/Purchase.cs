@@ -75,7 +75,7 @@ namespace BackEnd.Model
             Purchase pr = Find(PID);
             if (pr == null)
             {
-                return DBHelper.ExecuteNonQuery("INSERT INTO Account(PurchaseID,GoodsName,Unit,Quantity,Price,Pdate) VALUES(:PurchaseID,:GoodsName,:Unit,:Price,:Pdate)",
+                return DBHelper.ExecuteNonQuery("INSERT INTO Purchase(PurchaseID,GoodsName,Unit,Quantity,Price,Pdate) VALUES(:PurchaseID,:GoodsName,:Unit,:Quantity:Price,:Pdate)",
                     new OracleParameter(":PurchaseID", PID),
                     new OracleParameter(":GoodsName", goodsname),
                     new OracleParameter(":Unit", unit),
@@ -93,7 +93,7 @@ namespace BackEnd.Model
         /*删除一个元组*/
         public static int DeleteAccount(string ID)
         {
-            return DBHelper.ExecuteNonQuery("DELETE FROM Account WHERE PurchaseID = :PurchaseID",
+            return DBHelper.ExecuteNonQuery("DELETE FROM Purchase WHERE PurchaseID = :PurchaseID",
             new OracleParameter(":PurchaseID", ID)
             );
         }
