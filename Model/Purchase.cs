@@ -65,7 +65,7 @@ namespace BackEnd.Model
                 ac = dr.DtToModel<Purchase>();
                 result = ac.PurchaseID;
             }
-            return result+1;
+            return result + 1;
         }
 
         /*创建新的库存收购信息*/
@@ -75,7 +75,7 @@ namespace BackEnd.Model
             Purchase pr = Find(PID);
             if (pr == null)
             {
-                return DBHelper.ExecuteNonQuery("INSERT INTO Purchase(PurchaseID,GoodsName,Unit,Quantity,Price,Pdate) VALUES(:PurchaseID,:GoodsName,:Unit,:Quantity:Price,:Pdate)",
+                return DBHelper.ExecuteNonQuery("INSERT INTO Purchase(PurchaseID,GoodsName,Unit,Quantity,Price,Pdate) VALUES(:PurchaseID,:GoodsName,:Unit,:Price,:Pdate)",
                     new OracleParameter(":PurchaseID", PID),
                     new OracleParameter(":GoodsName", goodsname),
                     new OracleParameter(":Unit", unit),
@@ -99,4 +99,3 @@ namespace BackEnd.Model
         }
     }
 }
-    //Footer
