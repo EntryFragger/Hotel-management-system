@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +16,12 @@ namespace BackEnd.Controller
     [ApiController]
     public class StockController : ControllerBase
     {
-        [HttpPost]
+        /// <summary>
+        /// 获取所有库存信息
+        /// </summary>
+        /// <param name="tokenValue">token</param>
+        /// <returns>所有的库存信息/returns>
+        [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -33,7 +38,7 @@ namespace BackEnd.Controller
                 List<Stock> list = Stock.GetList();
                 if (list.Count > 0)
                 {
-                    return Ok(list);
+                    return Ok(new JsonResult(list));
                 }
                 else
                 {
@@ -45,7 +50,19 @@ namespace BackEnd.Controller
                 return BadRequest("数据库请求出错" + oe.Number.ToString());
             }
         }
-        public IActionResult DeleteStock(string tokenValue,string Name)//删除某库存
+
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        /// <summary>
+        /// 删除特定库存
+        /// </summary>
+        /// <param name="tokenValue">token</param>
+        /// <param name="Name">库存名称</param>
+        /// <returns>删除特定库存的结果</returns>
+        public IActionResult DeleteStock(string tokenValue, string Name)//删除某库存
         {
             try
             {
@@ -70,6 +87,19 @@ namespace BackEnd.Controller
                 return BadRequest("数据库请求出错" + oe.Number.ToString());
             }
         }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        /// <summary>
+        /// 修改库存
+        /// </summary>
+        /// <param name="tokenValue">token</param>
+        /// <param name="name">库存名称</param>
+        /// <param name="unit">计量单位</param>
+        /// <param name="quantity">数量</param>
+        /// <returns>修改库存的结果</returns>
         public IActionResult ChangeStock(string tokenValue, string name, string unit, string quantity)//修改库存
         {
             try
@@ -95,6 +125,20 @@ namespace BackEnd.Controller
                 return BadRequest("数据库请求出错" + oe.Number.ToString());
             }
         }
+        /// <summary>
+        /// 添加新品类库存
+        /// </summary>
+        /// <param name="tokenValue">token</param>
+        /// <param name="name">库存名称</param>
+        /// <param name="unit">计量单位</param>
+        /// <param name="quantity">数量</param>
+        /// <returns>添加新品类库存的结果</returns>
+
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult UpdateNewStock(string tokenValue, string name, string unit, string quantity)//添加新品类库存
         {
             try
