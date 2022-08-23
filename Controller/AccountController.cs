@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,9 +20,15 @@ namespace BackEnd.Controller
     [ApiController]
     public class AccountController : ControllerBase
     {
+        /// <summary>
+        /// 获取所有的收支信息
+        /// </summary>
+        /// <param name="token_value">token</param>
+        /// <returns>查询到的收支信息</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult GetAllAcount(string token_value)
         {
             EmployeeInforToken user = JWTHelper.GetUsers(token_value);
@@ -31,7 +37,7 @@ namespace BackEnd.Controller
                 return BadRequest("权限不符");
             }
             List<Account> list = Account.GetAllList();
-            if (list!=null)
+            if (list != null)
             {
                 return Ok(new JsonResult(list));
             }
