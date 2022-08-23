@@ -9,7 +9,7 @@ using BackEnd.Utility;
 
 namespace BackEnd.Model
 {
-    public class Order
+    public class RoomOrder
     {
         /*需要后端随机生成的ID都是long，不需要随机生成的ID都是string*/
         public long OrderID { set; get; }//PK
@@ -25,43 +25,43 @@ namespace BackEnd.Model
         public float Amount { set; get; }
 
         /*根据订单的OrderId返回对应订单的所有信息*/
-        public static Order Find(long ID)
+        public static RoomOrder Find(long ID)
         {
-            Order order = null;
-            DataTable dt = DBHelper.ExecuteTable("SELECT *  FROM Order WHERE OrderID = :OrderID",
+            RoomOrder room_order = null;
+            DataTable dt = DBHelper.ExecuteTable("SELECT *  FROM ROOMORDER WHERE OrderID = :OrderID",
                 new OracleParameter(":OrderID", ID)
                 );
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                order = dr.DtToModel<Order>();
+                room_order = dr.DtToModel<RoomOrder>();
             }
-            return order;
+            return room_order;
         }
 
         /*用于生成下一个ID*/
         public static long NextID()
         {
             long result = 0;
-            Order ac = null;
-            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(OrderID)  FROM Order");
+            RoomOrder ac = null;
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(OrderID)  FROM ROOMORDER");
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                ac = dr.DtToModel<Order>();
+                ac = dr.DtToModel<RoomOrder>();
                 result = ac.OrderID;
             }
-            return result+1;
+            return result + 1;
         }
 
         /*调用该函数将获取所有订单的所有信息，无订单返回null*/
-        public static List<Order> GetAllList()
+        public static List<RoomOrder> GetAllList()
         {
-            List<Order> list = new List<Order>();
-            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Order");
+            List<RoomOrder> list = new List<RoomOrder>();
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM ROOMORDER");
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Order>());
+                list.Add(dr.DtToModel<RoomOrder>());
             }
             /*为空返回空*/
             if (!list.Any())
@@ -71,15 +71,15 @@ namespace BackEnd.Model
 
         /*调用此函数查询某个顾客的所有订单，输入为顾客CustomerId，返回该顾客全部订单信息*/
         /*无订单返回null*/
-        public static List<Order> ListByGuest(string ID)
+        public static List<RoomOrder> ListByGuest(string ID)
         {
-            List<Order> list = new List<Order>();
-            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Order WHERE CustomerID = :CustomerID",
+            List<RoomOrder> list = new List<RoomOrder>();
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM ROOMORDER WHERE CustomerID = :CustomerID",
                new OracleParameter(":CustomerID", ID)
                );
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Order>());
+                list.Add(dr.DtToModel<RoomOrder>());
             }
             /*链表为空返回空*/
             if (!list.Any())
@@ -89,15 +89,15 @@ namespace BackEnd.Model
 
         /*调用此函数查询某个房间的所有订单，输入为RoomID，返回该房间全部订单信息*/
         /*无订单返回null*/
-        public static List<Order> ListByRoom(string ID)
+        public static List<RoomOrder> ListByRoom(string ID)
         {
-            List<Order> list = new List<Order>();
-            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Order WHERE RoomID = :RoomID",
+            List<RoomOrder> list = new List<RoomOrder>();
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM ROOMORDER WHERE RoomID = :RoomID",
                new OracleParameter(":RoomID", ID)
                );
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Order>());
+                list.Add(dr.DtToModel<RoomOrder>());
             }
             /*链表为空返回空*/
             if (!list.Any())
@@ -108,15 +108,15 @@ namespace BackEnd.Model
 
         /*根据状态列出订单信息，预留的可能使用的接口*/
         /*status取值 ed是已经完成 ing是正在进行*/
-        public static List<Order> ListByOrederStatus(string status)
+        public static List<RoomOrder> ListByOrederStatus(string status)
         {
-            List<Order> list = new List<Order>();
-            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Order WHERE OrderStatus = :OrderStatus",
+            List<RoomOrder> list = new List<RoomOrder>();
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM ROOMORDER WHERE OrderStatus = :OrderStatus",
                 new OracleParameter(":OrderStatus", status)
                 );
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Order>());
+                list.Add(dr.DtToModel<RoomOrder>());
             }
             /*链表为空返回空*/
             if (!list.Any())
@@ -126,19 +126,19 @@ namespace BackEnd.Model
 
         /*新创建的订单一定是进行中，所以参数中没有订单状态*/
         /*创建合法性问题没考虑订单ID的问题，只考虑了该房间是否仍然有订单处于进行状态*/
-        public static int CreateOrder(long OID, string RID, string CID, string starttime, string endtime,long Days, float price)
+        public static int CreateOrder(long OID, string RID, string CID, string starttime, string endtime, long Days, float price)
         {
             /*考察订单合法性，确定房间是否被重复定下，假设订单ID这种东西*/
-            List<Order> list = ListByRoom(RID);
+            List<RoomOrder> list = ListByRoom(RID);
             string ing = "ing";
-            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Order WHERE RoomID = :RoomID AND OrderStatus= :OrderStatus",
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM ROOMORDER WHERE RoomID = :RoomID AND OrderStatus= :OrderStatus",
               new OracleParameter(":RoomID", RID),
               new OracleParameter(":OrderStatus", ing)
               );
 
             if (dt.Rows.Count == 0)
             {
-                return DBHelper.ExecuteNonQuery("INSERT INTO Order(OrderID,RoomID,CustomerID,StartTime,EndTime,Days,OrderStatus,Violation,Amount) VALUES(:OrderID,:RoomID,:CustomerID,:StartTime,:EndTime,:Days,:OrderStatus,:Violation,:Amount)",//后面几个应该也有冒号吧，添加了days
+                return DBHelper.ExecuteNonQuery("INSERT INTO RoomOrder(OrderID,RoomID,CustomerID,StartTime,EndTime,Days,OrderStatus,Violation,Amount) VALUES(:OrderID,:RoomID,:CustomerID,:StartTime,:EndTime,:Days,:OrderStatus,:Violation,:Amount)",//后面几个应该也有冒号吧，添加了days
                     new OracleParameter(":OrderID", OID),
                     new OracleParameter(":RoomID", RID),
                     new OracleParameter(":CustomerID", CID),
@@ -158,15 +158,15 @@ namespace BackEnd.Model
         }
 
         /*调用该函数修改订单的状态，将未完成的订单修改为已经完成*/
-       public static int Change_Order_Status(long order_id)
+        public static int Change_Order_Status(long order_id)
         {
             string status = "done";
-            Order order = Find(order_id);
-            if (order!= null)
+            RoomOrder room_order = Find(order_id);
+            if (room_order != null)
             {
-                return DBHelper.ExecuteNonQuery("UPDATE Order SET OrderStatus = :OrderStatus WHERE OrderID = :OrderID",
+                return DBHelper.ExecuteNonQuery("UPDATE RoomOrder SET OrderStatus = :OrderStatus WHERE OrderID = :OrderID",
                     new OracleParameter(":OrderID", order_id),
-                    new OracleParameter(":OrderStatus", statu)
+                    new OracleParameter(":OrderStatus", status)
                     );
             }
             else
