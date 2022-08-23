@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,9 +17,15 @@ namespace BackEnd.Controller
     [ApiController]
     public class PurchaseController : ControllerBase
     {
+        /// <summary>
+        /// 获取所有的货物收购信息
+        /// </summary>
+        /// <param name="token_value">token</param>
+        /// <returns>所有货物的收购信息</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         /*获取所有的货物收购信息*/
         public IActionResult GetAllPurchase(string token_value)
         {
@@ -29,7 +35,7 @@ namespace BackEnd.Controller
                 return BadRequest("权限不符");
             }
             List<Purchase> list = Purchase.GetAllList();
-            if (list!=null)
+            if (list != null)
             {
                 return Ok(new JsonResult(list));
             }
@@ -42,6 +48,7 @@ namespace BackEnd.Controller
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         /// <summary>
         /// 创建货物收购信息,如果创建成功，同时添加收支信息
         /// </summary>
