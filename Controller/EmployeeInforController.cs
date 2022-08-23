@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,7 @@ namespace BackEnd.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult GetEmployeeSimpleInfor(string tokenValue,string department,string ID)
+        public IActionResult GetEmployeeSimpleInfor(string tokenValue, string department, string ID)
         {
             try
             {
@@ -83,6 +83,7 @@ namespace BackEnd.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult GetEmployeeDetailedInfor(string tokenValue, long ID)
         {
             try
@@ -143,6 +144,7 @@ namespace BackEnd.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult AddEmployeeInfor(string tokenValue, EmployeeInforDetailedWithoutID newInfo)
         {
             try
@@ -181,7 +183,7 @@ namespace BackEnd.Controllers
                 {
                     return BadRequest("权限不符");
                 }
-                if(Employee.Delete(ID)>0)
+                if (Employee.Delete(ID) > 0)
                 {
                     return Ok("删除成功");
                 }
