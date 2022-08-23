@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,6 +19,7 @@ namespace BackEnd.Controller
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         /// <summary>
         /// 获取所有订单的信息
         /// </summary>
@@ -31,7 +32,7 @@ namespace BackEnd.Controller
             {
                 return BadRequest("权限不符");
             }
-            List<RoomOrder> list = Order.GetAllList();
+            List<RoomOrder> list = RoomOrder.GetAllList();
             if (list!=null)
             {
                 return Ok(new JsonResult(list));
@@ -45,6 +46,7 @@ namespace BackEnd.Controller
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         /// <summary>
         /// 根据客人CustomerID找出其所有的订单
         /// </summary>
@@ -58,7 +60,7 @@ namespace BackEnd.Controller
             {
                 return BadRequest("权限不符");
             }
-            List<RoomOrder> list = Order.ListByGuest(customer_id);
+            List<RoomOrder> list = RoomOrder.ListByGuest(customer_id);
             if (list != null)
             {
                 return Ok(new JsonResult(list));
@@ -69,9 +71,16 @@ namespace BackEnd.Controller
             }
         }
 
+        /// <summary>
+        /// 顾客退房
+        /// </summary>
+        /// <param name="tokenValue">token</param>
+        /// <param name="room_id">房间ID</param>
+        /// <returns>退房结果</returns>
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult Room_Checkout(string tokenValue, string room_id)
         {
             try
@@ -95,7 +104,7 @@ namespace BackEnd.Controller
                 }
                 //判断是否需要退房
                 string room_status = room.RoomStatus;
-                if (room_status == "Avaliable")
+                if (room_status == "Available")
                 {
                     return BadRequest("该房间未入住，无需退房");
                 }
@@ -113,7 +122,7 @@ namespace BackEnd.Controller
                 /*以上为改变订单状态,成功改变订单状态则开始改变坊间状态*/
                 if (issuccess_one != -1)
                 {
-                    int issuccess = Room.Change_Room_Status(room_id, "Avaliable");
+                    int issuccess = Room.Change_Room_Status(room_id, "Available");
                     //只有房间状态也修改成功才算完成退房
                     if(issuccess!=-1)
                         return Ok("退房成功");
