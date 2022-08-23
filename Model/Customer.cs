@@ -16,7 +16,7 @@ namespace BackEnd.Model
         public string PhoneNum { set; get; }
         public string Area { set; get; }
         public int VipLv { set; get; }
-   
+
         public static Customer Find(string ID)
         {
             Customer Customer = null;
@@ -30,7 +30,7 @@ namespace BackEnd.Model
             }
             return Customer;
         }
-        public static int AddCustomer(string ID, string Name, string Gender, string PhoneNum,string Area,int VipLv)//添加顾客
+        public static int AddCustomer(string ID, string Name, string Gender, string PhoneNum, string Area, int VipLv)//添加顾客
         {
             Customer Customer = Find(ID);
             if (Customer == null)
@@ -50,12 +50,12 @@ namespace BackEnd.Model
                 return -1;
             }
         }
-      /*  public static int DeleteCustomer(string ID)
-        {
-            return DBHelper.ExecuteNonQuery("DELETE FROM Customer WHERE CustomerID = :CustomerID",
-                new OracleParameter(":CustomerID", ID)
-                );
-        }*/
+        /*  public static int DeleteCustomer(string ID)
+          {
+              return DBHelper.ExecuteNonQuery("DELETE FROM Customer WHERE CustomerID = :CustomerID",
+                  new OracleParameter(":CustomerID", ID)
+                  );
+          }*/
         public static int ChangeVip(string ID, int VipLv)//修改vip等级
         {
             return DBHelper.ExecuteNonQuery("UPDATE Customer SET CustomerID = :CustomerID,VipLv=:VipLv  FROM Customer WHERE CustomerID = :CustomerID",
@@ -63,10 +63,10 @@ namespace BackEnd.Model
                      new OracleParameter(":VipLv", VipLv)
                 );
         }
-        public static int ChangeCustomer(string ID,string Name, string Gender, string PhoneNum, string Area, int VipLv)
+        public static int ChangeCustomer(string ID, string Name, string Gender, string PhoneNum, string Area, int VipLv)
         {
             Customer Customer = Find(ID);
-            if(Customer != null)
+            if (Customer != null)
             {
                 return DBHelper.ExecuteNonQuery("UPDATE Customer SET CustomerID = :CustomerID,Name = :Name,Gender = :Gender,PhoneNum = :PhoneNum ,VipLv=:VipLv WHERE CustomerID = :CustomerID",
                    new OracleParameter(":CustomerID", ID),
@@ -75,7 +75,7 @@ namespace BackEnd.Model
                     new OracleParameter(":PhoneNum", PhoneNum),
                     new OracleParameter(":Area", Area),
                     new OracleParameter(":VipLv", VipLv)
-                   ); 
+                   );
             }
             else
             {
@@ -105,7 +105,7 @@ namespace BackEnd.Model
             }
             return vip;
         }
-        public class CusomerInfo
+        public class CustomerInfo
         {
             public string CustomerID { set; get; }//PK
             public string Name { set; get; }
