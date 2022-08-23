@@ -37,7 +37,7 @@ namespace BackEnd.Model
         public static long Jobdistribution()
         {
             long lucky_employee_id = -1;
-            DataTable dt = DBHelper.ExecuteTable("SELECT distinct(EmployeeID) FROM EMPLOYEE");
+            DataTable dt = DBHelper.ExecuteTable("SELECT distinct(ID) FROM EMPLOYEE");
             if(dt.Rows.Count == 0)
             {
                 return lucky_employee_id;
@@ -113,7 +113,7 @@ namespace BackEnd.Model
         public static List<RoomServiceInfo> ListAll_RoomServiceInfo()
         {
             List<RoomServiceInfo> list = new List<RoomServiceInfo>();
-            DataTable dt = DBHelper.ExecuteTable("SELECT RoomID , Time, Remark, Status FROM ROOMSERVICE");
+            DataTable dt = DBHelper.ExecuteTable("SELECT RoomID , Time, Remark, Status, Type FROM ROOMSERVICE");
             foreach (DataRow dr in dt.Rows)
             {
                 list.Add(dr.DtToModel<RoomServiceInfo>());
@@ -123,9 +123,10 @@ namespace BackEnd.Model
 
         public static List<RoomJobInfo> GetUndoneJobInfo(long employee_id)
         {
+            string status = "UnDone";
             List<RoomJobInfo> list = new List<RoomJobInfo>();
             DataTable dt = DBHelper.ExecuteTable("SELECT RoomID , Time, Type FROM ROOMSERVICE WHERE Status = :Status AND EmployeeID = :EmployeeID",
-                new OracleParameter(":Status", "UnDone"),
+                new OracleParameter(":Status", status),
                 new OracleParameter(":EmployeeID", employee_id)
                 );
             foreach (DataRow dr in dt.Rows)
@@ -135,18 +136,14 @@ namespace BackEnd.Model
             return list;
         }
 
-        public static string GetAmount(string type)
+        public static int CheckType(string type)
         {
-            string amount = "";
-            DataTable dt = DBHelper.ExecuteTable("SELECT Amount FROM TYPEAMOUNT WHERE Type = :Type",
-                new OracleParameter(":Type", type)
-                );
-            if (dt.Rows.Count > 0)
+            int islegal = -1;
+            if(type == "订餐" || type == "清洁" || type == "维修")
             {
-                DataRow dr = dt.Rows[0];
-                amount = dr.DtToModel<string>();
+                islegal = 1;
             }
-            return amount;
+            return islegal;
         }
 
         /*public static List<RoomService> ListByRoom(string ID)
@@ -174,6 +171,7 @@ namespace BackEnd.Model
         public string Time { set; get; }//PK
         public string Remark { set; get; }
         public string Status { set; get; }
+        public string Type { set; get; }
     }
     public class TypeAmount
     {
