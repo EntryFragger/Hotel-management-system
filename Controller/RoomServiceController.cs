@@ -17,7 +17,12 @@ namespace BackEnd.Controller
     [ApiController]
     public class RoomServiceController : ControllerBase
     {
-        [HttpPost]
+        /// <summary>
+        /// 获取当前员工未完成的任务列表
+        /// </summary>
+        /// <param name="tokenValue">token</param>
+        /// <returns>当前员工未完成的任务列表</returns>
+        [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -49,7 +54,16 @@ namespace BackEnd.Controller
                 return BadRequest("数据库请求出错" + oe.Number.ToString());
             }
         }
-
+        /// <summary>
+        /// 新建客房服务
+        /// </summary>
+        /// <param name="tokenValue">token</param>
+        /// <param name="room_id">房间ID</param>
+        /// <param name="time">时间</param>
+        /// <param name="type">类型</param>
+        /// <param name="remark">备注</param>
+        /// <param name="amount">金额</param>
+        /// <returns>新建客房服务的结果</returns>
 
 
 
@@ -72,7 +86,7 @@ namespace BackEnd.Controller
                 {
                     return BadRequest("输入信息不完整或金额非法");
                 }
-                if (RoomService.GetAmount(type) == "")
+                if (RoomService.CheckType(type) == -1)
                 {
                     return BadRequest("输入服务类型错误");
                 }
@@ -100,11 +114,15 @@ namespace BackEnd.Controller
             }
 
         }
+        /// <summary>
+        /// 获取所有的客房服务信息
+        /// </summary>
+        /// <param name="tokenValue">token</param>
+        /// <returns>所有的客房服务信息</returns>
 
 
 
-
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -134,7 +152,14 @@ namespace BackEnd.Controller
             }
 
         }
-
+        /// <summary>
+        /// 修改客房服务的状态
+        /// </summary>
+        /// <param name="tokenValue">token</param>
+        /// <param name="room_id">房间ID</param>
+        /// <param name="time">时间</param>
+        /// <param name="status">状态</param>
+        /// <returns>修改客房服务状态的结果</returns>
 
 
         [HttpPost]
