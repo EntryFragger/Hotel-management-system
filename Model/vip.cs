@@ -25,10 +25,10 @@ namespace BackEnd.Model
             }
             return Vip;
         }
-        public static int AddVip(int VipLv,float Discount)//等级不能为非正数且不能超过10
+        public static int AddVip(int VipLv, float Discount)//等级不能为非正数且不能超过10
         {
             Vip Vip = find(VipLv);
-            if (Vip == null&& VipLv>0&&VipLv<=10)
+            if (Vip == null && VipLv > 0 && VipLv <= 10)
             {
                 return DBHelper.ExecuteNonQuery("INSERT INTO Vip(VipLv,Discount) VALUES(:VipLv,:Discount)",
                     new OracleParameter(":VipLv", VipLv),
@@ -65,7 +65,7 @@ namespace BackEnd.Model
             }
             else
             {
-               
+
                 return -1;
             }
         }
@@ -82,4 +82,3 @@ namespace BackEnd.Model
 
     }
 }
-
