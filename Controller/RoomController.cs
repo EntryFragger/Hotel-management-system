@@ -17,7 +17,13 @@ namespace BackEnd.Controller
     [ApiController]
     public class RoomController : ControllerBase
     {
-        [HttpPost]
+        /// <summary>
+        /// 根据房间类型获取房间信息
+        /// </summary>
+        /// <param name="tokenValue">token</param>
+        /// <param name="room_type">房间类型</param>
+        /// <returns>相应类型房间的信息</returns>
+        [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -62,10 +68,15 @@ namespace BackEnd.Controller
                 return BadRequest("数据库请求出错" + oe.Number.ToString());
             }
         }
+        /// <summary>
+        /// 获取特定房间的信息
+        /// </summary>
+        /// <param name="tokenValue">token</param>
+        /// <param name="room_id">房间ID</param>
+        /// <returns>特定房间的信息</returns>
 
 
-
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
