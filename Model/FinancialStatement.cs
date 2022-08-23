@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,7 +39,7 @@ namespace BackEnd.Model
         public static List<FinancialStatement> GetList()
         {
             List<FinancialStatement> list = new List<FinancialStatement>();
-            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM FINANCIALSTATEMENT " );
+            DataTable dt = DBHelper.ExecuteTable("SELECT * FROM FINANCIALSTATEMENT ");
             foreach (DataRow dr in dt.Rows)
                 list.Add(dr.DtToModel<FinancialStatement>());
             return list;
@@ -61,7 +61,7 @@ namespace BackEnd.Model
         public static int Add(long employeeID, long statementID, string statementcontent, long amount, string state)
         {
             FinancialStatement financialStatement = Find(statementID);
-            if(financialStatement!=null)
+            if (financialStatement != null)
             {
                 DBHelper.ExecuteNonQuery("DELETE FROM FINANCIALSTATEMENT WHERE StatementID = :StatementID",
                    new OracleParameter(":StatementID", statementID)
@@ -108,5 +108,3 @@ namespace BackEnd.Model
         }
     }
 }
-
-  
