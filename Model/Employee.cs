@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,7 +22,7 @@ namespace BackEnd.Model
         public static long NextID()
         {
             long MaxID = -1;
-            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(ID) FROM FINANCIALSTATEMENT ");
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(ID) FROM EMPLOYEE");
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
@@ -54,25 +54,25 @@ namespace BackEnd.Model
             }
             return instance;
         }
-         public static int Add(long ID, string name, string gender, string age, string salary, string phonenum,string department,string password)
+        public static int Add(long ID, string name, string gender, string age, string salary, string phonenum, string department, string password)
         {
             Employee employee = Employee.Find(ID);
-            if(employee!=null)
+            if (employee != null)
             {
                 DBHelper.ExecuteNonQuery("DELETE FROM EMPLOYEE WHERE ID = :ID",
                   new OracleParameter(":ID", ID)
                   );
-                 return DBHelper.ExecuteNonQuery("INSERT INTO EMPLOYEE(ID,Name,Gender,Age,PhoneNum,Salary,Department,Password)" +
-                 "VALUES(:ID,:Name,:Gender,:Age,:PhoneNum,:Salary,:Department,:Password) ",
-                 new OracleParameter(":ID", ID),
-                 new OracleParameter(":Name", name),
-                 new OracleParameter(":Gender", gender),
-                 new OracleParameter(":Age", age),
-                 new OracleParameter(":Salary", salary),
-                 new OracleParameter(":PhoneNum", phonenum),
-                 new OracleParameter(":Department", department),
-                 new OracleParameter(":Password", password)
-                 );
+                return DBHelper.ExecuteNonQuery("INSERT INTO EMPLOYEE(ID,Name,Gender,Age,PhoneNum,Salary,Department,Password)" +
+                "VALUES(:ID,:Name,:Gender,:Age,:PhoneNum,:Salary,:Department,:Password) ",
+                new OracleParameter(":ID", ID),
+                new OracleParameter(":Name", name),
+                new OracleParameter(":Gender", gender),
+                new OracleParameter(":Age", age),
+                new OracleParameter(":Salary", salary),
+                new OracleParameter(":PhoneNum", phonenum),
+                new OracleParameter(":Department", department),
+                new OracleParameter(":Password", password)
+                );
             }
             return DBHelper.ExecuteNonQuery("INSERT INTO EMPLOYEE(ID,Name,Gender,Age,PhoneNum,Salary,Department,Password)" +
                 "VALUES(:ID,:Name,:Gender,:Age,:PhoneNum,:Salary,:Department,:Password) ",
@@ -113,7 +113,7 @@ namespace BackEnd.Model
                 );
         }
 
-        public static int ChangePassword(long ID,string password)
+        public static int ChangePassword(long ID, string password)
         {
             return DBHelper.ExecuteNonQuery("UPDATE EMPLOYEE SET Password=:Password WHERE ID = :ID",
                 new OracleParameter(":ID", ID),
