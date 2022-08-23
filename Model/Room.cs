@@ -146,3 +146,4 @@ namespace BackEnd.Model
         public string RoomPrice { set; get; }
     }
 }
+
