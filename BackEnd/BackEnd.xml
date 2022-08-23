@@ -1,0 +1,359 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BackEnd</name>
+    </assembly>
+    <members>
+        <member name="M:BackEnd.Controller.AccountController.GetAllAcount(System.String)">
+            <summary>
+            获取所有的收支信息
+            </summary>
+            <param name="token_value">token</param>
+            <returns>查询到的收支信息</returns>
+        </member>
+        <member name="M:BackEnd.Controller.CustomerController.CustomerBookRoom(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int64)">
+            <summary>
+            顾客订房操作
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="RoomID">房间ID</param>
+            <param name="CustomerID">顾客ID</param>
+            <param name="Name">姓名</param>
+            <param name="Gender">性别</param>
+            <param name="PhoneNum">电话号码</param>
+            <param name="Area">地区</param>
+            <param name="starttime">住房起始时间</param>
+            <param name="endtime">住房结束时间</param>
+            <param name="Days">住房天数</param>
+            <returns>订房操作执行的结果</returns>
+        </member>
+        <member name="M:BackEnd.Controller.CustomerController.GetCustomerInformation(System.String,System.String)">
+            <summary>
+            获取顾客个人信息
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="CustomerID">顾客ID</param>
+            <returns>相应的顾客信息</returns>
+        </member>
+        <member name="M:BackEnd.Controller.CustomerController.OpenVip(System.String,System.String,System.Int32)">
+            <summary>
+            开通vip
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="CustomerID">顾客ID</param>
+            <param name="VipLv">vip等级</param>
+            <returns>开通vip操作的执行结果</returns>
+        </member>
+        <member name="M:BackEnd.Controller.OrderController.Order_GetAll(System.String)">
+            <summary>
+            获取所有订单的信息
+            </summary>
+            <param name="token_value">token</param>
+            <returns>所有订单的信息</returns>
+        </member>
+        <member name="M:BackEnd.Controller.OrderController.ListOrderByGuest(System.String,System.String)">
+            <summary>
+            根据客人CustomerID找出其所有的订单
+            </summary>
+            <param name="customer_id">顾客ID</param>
+            <param name="token_value">token</param>
+            <returns>对应顾客的所有订单</returns>
+        </member>
+        <member name="M:BackEnd.Controller.OrderController.Room_Checkout(System.String,System.String)">
+            <summary>
+            顾客退房
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="room_id">房间ID</param>
+            <returns>退房结果</returns>
+        </member>
+        <member name="M:BackEnd.Controller.PurchaseController.GetAllPurchase(System.String)">
+            <summary>
+            获取所有的货物收购信息
+            </summary>
+            <param name="token_value">token</param>
+            <returns>所有货物的收购信息</returns>
+        </member>
+        <member name="M:BackEnd.Controller.PurchaseController.Purchase_Create(System.String,System.String,System.Single,System.String,System.String,System.String)">
+            <summary>
+            创建货物收购信息,如果创建成功，同时添加收支信息
+            </summary>
+            <param name="goods_name">商品名称</param>
+            <param name="quantity">数量</param>
+            <param name="price">价格</param>
+            <param name="date">日期</param>
+            <param name="unit">单位</param>
+            <param name="token_value">token</param>
+            <returns>创建是否成功的提示</returns>
+        </member>
+        <member name="M:BackEnd.Controller.RoomController.GetRoomInfo_ByType(System.String,System.String)">
+            <summary>
+            根据房间类型获取房间信息
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="room_type">房间类型</param>
+            <returns>相应类型房间的信息</returns>
+        </member>
+        <member name="M:BackEnd.Controller.RoomController.Room_GetSpecificRoom(System.String,System.String)">
+            <summary>
+            获取特定房间的信息
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="room_id">房间ID</param>
+            <returns>特定房间的信息</returns>
+        </member>
+        <member name="M:BackEnd.Controller.RoomServiceController.GetUndoneJob(System.String)">
+            <summary>
+            获取当前员工未完成的任务列表
+            </summary>
+            <param name="tokenValue">token</param>
+            <returns>当前员工未完成的任务列表</returns>
+        </member>
+        <member name="M:BackEnd.Controller.RoomServiceController.CreateRoomService(System.String,System.String,System.String,System.String,System.String,System.Int64)">
+            <summary>
+            新建客房服务
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="room_id">房间ID</param>
+            <param name="time">时间</param>
+            <param name="type">类型</param>
+            <param name="remark">备注</param>
+            <param name="amount">金额</param>
+            <returns>新建客房服务的结果</returns>
+        </member>
+        <member name="M:BackEnd.Controller.RoomServiceController.GetAllRoomService(System.String)">
+            <summary>
+            获取所有的客房服务信息
+            </summary>
+            <param name="tokenValue">token</param>
+            <returns>所有的客房服务信息</returns>
+        </member>
+        <member name="M:BackEnd.Controller.RoomServiceController.ChangeRoomServiceStatus(System.String,System.String,System.String,System.String)">
+            <summary>
+            修改客房服务的状态
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="room_id">房间ID</param>
+            <param name="time">时间</param>
+            <param name="status">状态</param>
+            <returns>修改客房服务状态的结果</returns>
+        </member>
+        <member name="M:BackEnd.Controller.StockController.Stock_GetAll(System.String)">
+            <summary>
+            获取所有库存信息
+            </summary>
+            <param name="tokenValue">token</param>
+            <returns>所有的库存信息</returns>
+        </member>
+        <member name="M:BackEnd.Controller.StockController.DeleteStock(System.String,System.String)">
+            <summary>
+            删除特定库存
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="Name">库存名称</param>
+            <returns>删除特定库存的结果</returns>
+        </member>
+        <member name="M:BackEnd.Controller.StockController.ChangeStock(System.String,System.String,System.String,System.String)">
+            <summary>
+            修改库存
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="name">库存名称</param>
+            <param name="unit">计量单位</param>
+            <param name="quantity">数量</param>
+            <returns>修改库存的结果</returns>
+        </member>
+        <member name="M:BackEnd.Controller.StockController.UpdateNewStock(System.String,System.String,System.String,System.String)">
+            <summary>
+            添加新品类库存
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="name">库存名称</param>
+            <param name="unit">计量单位</param>
+            <param name="quantity">数量</param>
+            <returns>添加新品类库存的结果</returns>
+        </member>
+        <member name="M:BackEnd.Controllers.EmployeeInforController.GetEmployeeSimpleInfor(System.String,System.String,System.String)">
+            <summary>
+            获取要查询的员工信息（简）
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="department">部门</param>
+            <param name="ID">员工ID</param>
+            <returns>查询到的员工信息</returns>
+        </member>
+        <member name="M:BackEnd.Controllers.EmployeeInforController.GetEmployeeDetailedInfor(System.String,System.Int64)">
+            <summary>
+            获取员工信息（详）
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="ID">员工ID</param>
+            <returns>查找到的员工信息详情</returns>
+        </member>
+        <member name="M:BackEnd.Controllers.EmployeeInforController.ChangeEmployeeInfor(System.String,BackEnd.Model.EmployeeInforDetailed)">
+            <summary>
+            管理部修改员工信息
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="newInfo">新的员工信息</param>
+            <returns>修改是否成功的提示</returns>
+        </member>
+        <member name="M:BackEnd.Controllers.EmployeeInforController.AddEmployeeInfor(System.String,BackEnd.Model.EmployeeInforDetailedWithoutID)">
+            <summary>
+            管理部新增员工信息
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="newInfo">新增员工信息</param>
+            <returns>是否增加成功的提示</returns>
+        </member>
+        <member name="M:BackEnd.Controllers.EmployeeInforController.DeleteEmployeeInfor(System.String,System.Int64)">
+            <summary>
+            管理部删除员工的信息
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="ID">要删除的员工ID</param>
+            <returns>删除是否成功的提示</returns>
+        </member>
+        <member name="M:BackEnd.Controllers.FinancialStatementController.GetFinancialStatement(System.String)">
+            <summary>
+            获取当前人的财务报单
+            </summary>
+            <param name="tokenValue">token</param>
+            <returns>相应人的财务报单</returns>
+        </member>
+        <member name="M:BackEnd.Controllers.FinancialStatementController.SubmitFinancialStatement(System.String,System.String,System.Int64,System.String)">
+            <summary>
+            提交财务报表
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="statementContent">报单内容</param>
+            <param name="amount">金额</param>
+            <param name="state">状态</param>
+            <returns>返回报单是否提交成功的信息</returns>
+        </member>
+        <member name="M:BackEnd.Controllers.FinancialStatementController.GetAllFinancialStatement(System.String)">
+            <summary>
+            获取所有财务报单，面向财务部
+            </summary>
+            <param name="token_value">token</param>
+            <returns></returns>
+        </member>
+        <member name="M:BackEnd.Controllers.FinancialStatementController.GetFinancialStatement(System.String,System.Int64)">
+            <summary>
+            财务部调用审批财务报单，会将财务报单的状态从未通过改为通过
+            </summary>
+            <param name="token_value">token</param>
+            <param name="sID">要审批的财务报单ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:BackEnd.Controllers.LoginController.Login(System.Int64,System.String)">
+            <summary>
+            使用ID和密码进行登录
+            </summary>
+            <param name="ID">用户ID</param>
+            <param name="Password">用户密码</param>
+            <returns>token</returns>
+        </member>
+        <member name="M:BackEnd.Controllers.MaintenanceController.GetMaintenanceInfo(System.String)">
+            <summary>
+            获取设备维护信息
+            </summary>
+            <param name="tokenValue">token</param>
+            <returns>设备维护信息</returns>
+        </member>
+        <member name="M:BackEnd.Controllers.MaintenanceController.SubmitMaintenanceInfo(System.String,System.String,System.String,System.Int64)">
+            <summary>
+            提交设施维护信息
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="date">日期</param>
+            <param name="itemID">设备ID</param>
+            <param name="employeeID">员工ID</param>
+            <returns>信息提交结果</returns>
+        </member>
+        <member name="M:BackEnd.Controllers.PersonalInfoController.ResetInfor(System.String,BackEnd.Model.EmployeeInforDetailedWithoutID)">
+            <summary>
+            个人修改当前人的信息
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="newInfo">新的信息</param>
+            <returns>是否修改成功的提示</returns>
+        </member>
+        <member name="M:BackEnd.Controllers.PersonalInfoController.ResetPassword(System.String,System.String,System.String)">
+            <summary>
+            重置密码
+            </summary>
+            <param name="tokenValue">token</param>
+            <param name="oldPassword">旧密码</param>
+            <param name="newPassword">新密码</param>
+            <returns>是否修改成功的提示信息</returns>
+        </member>
+        <member name="M:BackEnd.Model.FinancialStatement.Change_FinicalStatement_Status(System.Int64)">
+            <summary>
+            将财务报单的状态从未通过修改为已通过
+            </summary>
+            <param name="f_id"></param>
+            <returns></returns>
+        </member>
+        <member name="P:BackEnd.Model.JWTHeader.alg">
+            <summary>
+            解密算法
+            </summary>
+        </member>
+        <member name="P:BackEnd.Model.JWTHeader.typ">
+            <summary>
+            TOKEN类型
+            </summary>
+        </member>
+        <member name="P:BackEnd.Model.JWTHeader.expTime">
+            <summary>
+            过期时间戳
+            </summary>
+        </member>
+        <member name="P:BackEnd.Model.JWTPayload.ID">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:BackEnd.Model.JWTPayload.Department">
+            <summary>
+            用户所属部门
+            </summary>
+        </member>
+        <member name="M:BackEnd.Utility.JWTHelper.SetJwtEncode(BackEnd.Model.JWTPayload)">
+            <summary>
+            生成JwtToken
+            </summary>
+            <param name="jwtPayload">非隐私的用户数据</param>
+            <returns></returns>
+        </member>
+        <member name="M:BackEnd.Utility.JWTHelper.GetHeader(System.String)">
+            <summary>
+            获取Token信息，解密获得其他信息
+            </summary>
+            <param name="value"></param>
+            <returns>头部信息</returns>
+        </member>
+        <member name="M:BackEnd.Utility.JWTHelper.GetPayload(System.String)">
+            <summary>
+            获取Token信息，解密获得其他信息
+            </summary>
+            <param name="value"></param>
+            <returns>负载信息</returns>
+        </member>
+        <member name="M:BackEnd.Utility.JWTHelper.IsOkToken(System.String)">
+            <summary>
+            基础校验传入的Token的合法性
+            </summary>
+            <param name="tokenValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BackEnd.Utility.JWTHelper.GetUsers(System.String)">
+            <summary>
+            用户脱敏信息
+            </summary>
+            <param name="tokenValue"></param>
+            <returns>User类型</returns>
+        </member>
+    </members>
+</doc>
