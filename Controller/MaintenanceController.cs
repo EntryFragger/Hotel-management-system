@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +21,7 @@ namespace BackEnd.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult GetMaintenanceInfo(string tokenValue)
         {
             try
@@ -38,10 +39,19 @@ namespace BackEnd.Controllers
                 return BadRequest("数据库请求出错" + oe.Number.ToString());
             }
         }
+        /// <summary>
+        /// 提交设施维护信息
+        /// </summary>
+        /// <param name="tokenValue">token</param>
+        /// <param name="date">日期</param>
+        /// <param name="itemID">设备ID</param>
+        /// <param name="employeeID">员工ID</param>
+        /// <returns>信息提交结果</returns>
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult SubmitMaintenanceInfo(string tokenValue,string date,string itemID,long employeeID)
+        [ProducesResponseType(404)]
+        public IActionResult SubmitMaintenanceInfo(string tokenValue, string date, string itemID, long employeeID)
         {
             try
             {
