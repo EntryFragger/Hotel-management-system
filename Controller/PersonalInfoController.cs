@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +22,7 @@ namespace BackEnd.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult ResetInfor(string tokenValue, EmployeeInforDetailedWithoutID newInfo)
         {
             try
@@ -47,6 +48,7 @@ namespace BackEnd.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public IActionResult ResetPassword(string tokenValue, string oldPassword, string newPassword)
         {
             if (oldPassword == newPassword)
@@ -58,7 +60,7 @@ namespace BackEnd.Controllers
                 EmployeeInforToken user = JWTHelper.GetUsers(tokenValue);
                 Employee employee = Employee.Find(user.ID);
                 string truePassword = employee.Password;
-                if(truePassword!=oldPassword )
+                if (truePassword != oldPassword)
                 {
                     return BadRequest("旧密码错误");
                 }
