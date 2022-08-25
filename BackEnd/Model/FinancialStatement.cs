@@ -33,7 +33,14 @@ namespace BackEnd.Model
                 new OracleParameter(":EmployeeID", EmployeeID)
                 );
             foreach (DataRow dr in dt.Rows)
-                list.Add(dr.DtToModel<FinancialStatement>());
+                list.Add(new FinancialStatement()
+                {
+                    EmployeeID = long.Parse(dr["EMPLOYEEID"].ToString()),
+                    StatementID = long.Parse(dr["STATEMENTID"].ToString()),
+                    StatementContent = dr["STATEMENTCONTENT"].ToString(),
+                    Amount = long.Parse(dr["AMOUNT"].ToString()),
+                    State = dr["STATE"].ToString(),
+                });
             return list;
         }
         public static List<FinancialStatement> GetList()
@@ -41,7 +48,14 @@ namespace BackEnd.Model
             List<FinancialStatement> list = new List<FinancialStatement>();
             DataTable dt = DBHelper.ExecuteTable("SELECT * FROM FINANCIALSTATEMENT ");
             foreach (DataRow dr in dt.Rows)
-                list.Add(dr.DtToModel<FinancialStatement>());
+                list.Add(new FinancialStatement()
+                {
+                    EmployeeID = long.Parse(dr["EMPLOYEEID"].ToString()),
+                    StatementID = long.Parse(dr["STATEMENTID"].ToString()),
+                    StatementContent = dr["STATEMENTCONTENT"].ToString(),
+                    Amount = long.Parse(dr["AMOUNT"].ToString()),
+                    State = dr["STATE"].ToString(),
+                });
             return list;
         }
         public static FinancialStatement Find(long statementID)
@@ -53,7 +67,14 @@ namespace BackEnd.Model
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                financialStatement = dr.DtToModel<FinancialStatement>();
+                financialStatement = new FinancialStatement()
+                {
+                    EmployeeID = long.Parse(dr["EMPLOYEEID"].ToString()),
+                    StatementID = long.Parse(dr["STATEMENTID"].ToString()),
+                    StatementContent = dr["STATEMENTCONTENT"].ToString(),
+                    Amount = long.Parse(dr["AMOUNT"].ToString()),
+                    State = dr["STATE"].ToString(),
+                };
             }
             return financialStatement;
 

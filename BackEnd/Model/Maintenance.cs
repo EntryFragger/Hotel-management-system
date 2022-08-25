@@ -22,7 +22,14 @@ namespace BackEnd.Model
                 );
             if (dt.Rows.Count > 0)
             {
-                instance = dt.Rows[0].DtToModel<Maintenance>();
+                DataRow dr = dt.Rows[0];
+                instance = new Maintenance()
+                {
+                    ItemId = dr["ITEMID"].ToString(),
+                    EmployeeId = long.Parse(dr["EMPLOYEEID"].ToString()),
+                    mDate = dr["MDATE"].ToString(),
+                    ItemName = dr["ITEMNAME"].ToString()
+                };
             }
             return instance;
         }
@@ -31,7 +38,13 @@ namespace BackEnd.Model
             List<Maintenance> list = new List<Maintenance>();
             DataTable dt = DBHelper.ExecuteTable("SELECT mDate,ItemID,EmployeeID,ItemName FROM MAINTENANCE");
             foreach (DataRow dr in dt.Rows)
-                list.Add(dr.DtToModel<Maintenance>());
+                list.Add(new Maintenance()
+                {
+                    ItemId = dr["ITEMID"].ToString(),
+                    EmployeeId = long.Parse(dr["EMPLOYEEID"].ToString()),
+                    mDate = dr["MDATE"].ToString(),
+                    ItemName = dr["ITEMNAME"].ToString()
+                });
             return list;
         }
         public static int Add(string itemID, long employeeID, string mdate, string itemName)

@@ -26,7 +26,15 @@ namespace BackEnd.Model
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                Customer = dr.DtToModel<Customer>();
+                Customer = new Customer()
+                {
+                    CustomerID = dr["CUSTOMERID"].ToString(),
+                    Name = dr["NAME"].ToString(),
+                    Gender = dr["GENDER"].ToString(),
+                    PhoneNum = dr["PHONENUM"].ToString(),
+                    Area = dr["AREA"].ToString(),
+                    VipLv = int.Parse(dr["VIPLV"].ToString())
+                };
             }
             return Customer;
         }
@@ -88,7 +96,15 @@ namespace BackEnd.Model
             DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Customer");
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Customer>());
+                list.Add(new Customer()
+                {
+                    CustomerID = dr["CUSTOMERID"].ToString(),
+                    Name = dr["NAME"].ToString(),
+                    Gender = dr["GENDER"].ToString(),
+                    PhoneNum = dr["PHONENUM"].ToString(),
+                    Area = dr["AREA"].ToString(),
+                    VipLv = int.Parse(dr["VIPLV"].ToString())
+                });
             }
             return list;
         }

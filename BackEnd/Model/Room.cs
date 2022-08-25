@@ -25,7 +25,13 @@ namespace BackEnd.Model
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                room = dr.DtToModel<Room>();
+                room = new Room()
+                {
+                    RoomID = dr["ROOMID"].ToString(),
+                    RoomType = dr["ROOMTYPE"].ToString(),
+                    RoomStatus = dr["ROOMSTATUS"].ToString(),
+                    RoomPrice = dr["ROOMPRICE"].ToString()
+                };
             }
             return room;
         }
@@ -38,7 +44,13 @@ namespace BackEnd.Model
                 );
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Room>());
+                list.Add(new Room()
+                {
+                    RoomID = dr["ROOMID"].ToString(),
+                    RoomType = dr["ROOMTYPE"].ToString(),
+                    RoomStatus = dr["ROOMSTATUS"].ToString(),
+                    RoomPrice = dr["ROOMPRICE"].ToString()
+                });
             }
             return list;
         }
@@ -49,7 +61,13 @@ namespace BackEnd.Model
             DataTable dt = DBHelper.ExecuteTable("SELECT * FROM ROOM");
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Room>());
+                list.Add(new Room()
+                {
+                    RoomID = dr["ROOMID"].ToString(),
+                    RoomType = dr["ROOMTYPE"].ToString(),
+                    RoomStatus = dr["ROOMSTATUS"].ToString(),
+                    RoomPrice = dr["ROOMPRICE"].ToString()
+                });
             }
             return list;
         }
@@ -62,7 +80,13 @@ namespace BackEnd.Model
                 );
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Room>());
+                list.Add(new Room()
+                {
+                    RoomID = dr["ROOMID"].ToString(),
+                    RoomType = dr["ROOMTYPE"].ToString(),
+                    RoomStatus = dr["ROOMSTATUS"].ToString(),
+                    RoomPrice = dr["ROOMPRICE"].ToString()
+                });
             }
             return list;
         }
@@ -103,7 +127,13 @@ namespace BackEnd.Model
             DataTable dt = DBHelper.ExecuteTable("SELECT * FROM ROOM");
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Room>());
+                list.Add(new Room()
+                {
+                    RoomID = dr["ROOMID"].ToString(),
+                    RoomType = dr["ROOMTYPE"].ToString(),
+                    RoomStatus = dr["ROOMSTATUS"].ToString(),
+                    RoomPrice = dr["ROOMPRICE"].ToString()
+                });
             }
             return list;
         }

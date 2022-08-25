@@ -28,7 +28,13 @@ namespace BackEnd.Model
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                ac = dr.DtToModel<Account>();
+                ac = new Account()
+                {
+                    AccountID = long.Parse(dr["ACCOUNTID"].ToString()),
+                    Adate = dr["ADATE"].ToString(),
+                    Amount = float.Parse(dr["AMOUNT"].ToString()),
+                    Type = dr["TYPE"].ToString()
+                };
             }
             return ac;
         }
@@ -42,7 +48,13 @@ namespace BackEnd.Model
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                ac = dr.DtToModel<Account>();
+                ac = new Account()
+                {
+                    AccountID = long.Parse(dr["ACCOUNTID"].ToString()),
+                    Adate = dr["ADATE"].ToString(),
+                    Amount = float.Parse(dr["AMOUNT"].ToString()),
+                    Type = dr["TYPE"].ToString()
+                };
                 result = ac.AccountID;
             }
             return result + 1;
@@ -55,7 +67,14 @@ namespace BackEnd.Model
             DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Account");
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Account>());
+                
+                list.Add(new Account()
+                {
+                    AccountID = long.Parse(dr["ACCOUNTID"].ToString()),
+                    Adate = dr["ADATE"].ToString(),
+                    Amount = float.Parse(dr["AMOUNT"].ToString()),
+                    Type = dr["TYPE"].ToString()
+                });
             }
             /*为空返回空*/
             if (!list.Any())

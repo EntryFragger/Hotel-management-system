@@ -32,7 +32,15 @@ namespace BackEnd.Model
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                o = dr.DtToModel<Purchase>();
+                o = new Purchase()
+                {
+                    PurchaseID = long.Parse(dr["PURCHASEID"].ToString()),
+                    GoodsName = dr["GOODSNAME"].ToString(),
+                    Unit = dr["UNIT"].ToString(),
+                    Quantity = dr["QUANTITY"].ToString(),
+                    Price = float.Parse(dr["PRICE"].ToString()),
+                    Pdate = dr["PDATE"].ToString(),
+                };
             }
             return o;
         }
@@ -44,7 +52,15 @@ namespace BackEnd.Model
             DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Purchase");
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Purchase>());
+                list.Add(new Purchase()
+                {
+                    PurchaseID = long.Parse(dr["PURCHASEID"].ToString()),
+                    GoodsName = dr["GOODSNAME"].ToString(),
+                    Unit = dr["UNIT"].ToString(),
+                    Quantity = dr["QUANTITY"].ToString(),
+                    Price = float.Parse(dr["PRICE"].ToString()),
+                    Pdate = dr["PDATE"].ToString(),
+                });
             }
             if (!list.Any())
             {
@@ -62,7 +78,15 @@ namespace BackEnd.Model
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                ac = dr.DtToModel<Purchase>();
+                ac = new Purchase()
+                {
+                    PurchaseID = long.Parse(dr["PURCHASEID"].ToString()),
+                    GoodsName = dr["GOODSNAME"].ToString(),
+                    Unit = dr["UNIT"].ToString(),
+                    Quantity = dr["QUANTITY"].ToString(),
+                    Price = float.Parse(dr["PRICE"].ToString()),
+                    Pdate = dr["PDATE"].ToString(),
+                };
                 result = ac.PurchaseID;
             }
             return result + 1;

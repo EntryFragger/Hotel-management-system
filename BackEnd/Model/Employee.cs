@@ -38,7 +38,18 @@ namespace BackEnd.Model
                 );
             if (dt.Rows.Count > 0)
             {
-                instance = dt.Rows[0].DtToModel<Employee>();
+                DataRow dr = dt.Rows[0];
+                instance = new Employee()
+                {
+                    ID = long.Parse(dr["ID"].ToString()),
+                    Name = dr["NAME"].ToString(),
+                    Gender = dr["GENDER"].ToString(),
+                    Age=dr["AGE"].ToString(),
+                    PhoneNum = dr["PHONENUM"].ToString(),
+                    Salary = dr["SALARY"].ToString(),
+                    Department = dr["DEPARTMENT"].ToString(),
+                    Password= dr["PASSWORD"].ToString()
+                };
             }
             return instance;
         }
@@ -50,7 +61,17 @@ namespace BackEnd.Model
                 );
             if (dt.Rows.Count > 0)
             {
-                instance = dt.Rows[0].DtToModel<EmployeeInforDetailed>();
+                DataRow dr = dt.Rows[0];
+                instance = new EmployeeInforDetailed()
+                {
+                    ID = long.Parse(dr["ID"].ToString()),
+                    Name = dr["NAME"].ToString(),
+                    Gender = dr["GENDER"].ToString(),
+                    Age = dr["AGE"].ToString(),
+                    PhoneNum = dr["PHONENUM"].ToString(),
+                    Salary = dr["SALARY"].ToString(),
+                    Department = dr["DEPARTMENT"].ToString()
+                };
             }
             return instance;
         }
@@ -93,7 +114,17 @@ namespace BackEnd.Model
                new OracleParameter(":ID", ID)
                );
             if (dt.Rows.Count > 0)
-                employee = dt.Rows[0].DtToModel<EmployeeInforSimple>();
+            {
+                DataRow dr = dt.Rows[0];
+                employee = new EmployeeInforSimple()
+                {
+                    ID = long.Parse(dr["ID"].ToString()),
+                    Name = dr["NAME"].ToString(),
+                    Department = dr["DEPARTMENT"].ToString()
+                };
+
+            }
+               
             return employee;
         }
         public static List<EmployeeInforSimple> QueryByDep(string department)
@@ -103,7 +134,12 @@ namespace BackEnd.Model
                  new OracleParameter(":Department", department)
                 );
             foreach (DataRow dr in dt.Rows)
-                list.Add(dr.DtToModel<EmployeeInforSimple>());
+                list.Add(new EmployeeInforSimple()
+                {
+                    ID = long.Parse(dr["ID"].ToString()),
+                    Name = dr["NAME"].ToString(),
+                    Department = dr["DEPARTMENT"].ToString()
+                });
             return list;
         }
         public static int Delete(long ID)
@@ -125,7 +161,12 @@ namespace BackEnd.Model
             List<EmployeeInforSimple> list = new List<EmployeeInforSimple>();
             DataTable dt = DBHelper.ExecuteTable("SELECT ID,Name,Department FROM EMPLOYEE");
             foreach (DataRow dr in dt.Rows)
-                list.Add(dr.DtToModel<EmployeeInforSimple>());
+                list.Add(new EmployeeInforSimple()
+                {
+                    ID = long.Parse(dr["ID"].ToString()),
+                    Name = dr["NAME"].ToString(),
+                    Department = dr["DEPARTMENT"].ToString()
+                });
             return list;
         }
     }

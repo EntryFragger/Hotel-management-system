@@ -34,7 +34,18 @@ namespace BackEnd.Model
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                room_order = dr.DtToModel<RoomOrder>();
+                room_order = new RoomOrder()
+                {
+                    OrderID=long.Parse(dr["ORDERID"].ToString()),
+                    RoomID = dr["ROOMID"].ToString(),
+                    CustomerID = dr["CUSTOMERID"].ToString(),
+                    StartTime = dr["STARTTIME"].ToString(),
+                    EndTime = dr["ENDTIME"].ToString(),
+                    Days = long.Parse(dr["DAYS"].ToString()),
+                    OrderStatus = dr["ORDERSTATUS"].ToString(),
+                    Violation = dr["VIOLATION"].ToString(),
+                    Amount = float.Parse(dr["AMOUNT"].ToString())
+                };
             }
             return room_order;
         }
@@ -48,7 +59,18 @@ namespace BackEnd.Model
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                ac = dr.DtToModel<RoomOrder>();
+                ac = new RoomOrder()
+                {
+                    OrderID = long.Parse(dr["ORDERID"].ToString()),
+                    RoomID = dr["ROOMID"].ToString(),
+                    CustomerID = dr["CUSTOMERID"].ToString(),
+                    StartTime = dr["STARTTIME"].ToString(),
+                    EndTime = dr["ENDTIME"].ToString(),
+                    Days = long.Parse(dr["DAYS"].ToString()),
+                    OrderStatus = dr["ORDERSTATUS"].ToString(),
+                    Violation = dr["VIOLATION"].ToString(),
+                    Amount = float.Parse(dr["AMOUNT"].ToString())
+                };
                 result = ac.OrderID;
             }
             return result + 1;
@@ -61,7 +83,18 @@ namespace BackEnd.Model
             DataTable dt = DBHelper.ExecuteTable("SELECT * FROM ROOMORDER");
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<RoomOrder>());
+                list.Add(new RoomOrder()
+                {
+                    OrderID = long.Parse(dr["ORDERID"].ToString()),
+                    RoomID = dr["ROOMID"].ToString(),
+                    CustomerID = dr["CUSTOMERID"].ToString(),
+                    StartTime = dr["STARTTIME"].ToString(),
+                    EndTime = dr["ENDTIME"].ToString(),
+                    Days = long.Parse(dr["DAYS"].ToString()),
+                    OrderStatus = dr["ORDERSTATUS"].ToString(),
+                    Violation = dr["VIOLATION"].ToString(),
+                    Amount = float.Parse(dr["AMOUNT"].ToString())
+                });
             }
             /*为空返回空*/
             if (!list.Any())
@@ -79,7 +112,18 @@ namespace BackEnd.Model
                );
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<RoomOrder>());
+                list.Add(new RoomOrder()
+                {
+                    OrderID = long.Parse(dr["ORDERID"].ToString()),
+                    RoomID = dr["ROOMID"].ToString(),
+                    CustomerID = dr["CUSTOMERID"].ToString(),
+                    StartTime = dr["STARTTIME"].ToString(),
+                    EndTime = dr["ENDTIME"].ToString(),
+                    Days = long.Parse(dr["DAYS"].ToString()),
+                    OrderStatus = dr["ORDERSTATUS"].ToString(),
+                    Violation = dr["VIOLATION"].ToString(),
+                    Amount = float.Parse(dr["AMOUNT"].ToString())
+                });
             }
             /*链表为空返回空*/
             if (!list.Any())
@@ -97,7 +141,18 @@ namespace BackEnd.Model
                );
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<RoomOrder>());
+                list.Add(new RoomOrder()
+                {
+                    OrderID = long.Parse(dr["ORDERID"].ToString()),
+                    RoomID = dr["ROOMID"].ToString(),
+                    CustomerID = dr["CUSTOMERID"].ToString(),
+                    StartTime = dr["STARTTIME"].ToString(),
+                    EndTime = dr["ENDTIME"].ToString(),
+                    Days = long.Parse(dr["DAYS"].ToString()),
+                    OrderStatus = dr["ORDERSTATUS"].ToString(),
+                    Violation = dr["VIOLATION"].ToString(),
+                    Amount = float.Parse(dr["AMOUNT"].ToString())
+                });
             }
             /*链表为空返回空*/
             if (!list.Any())
@@ -116,7 +171,18 @@ namespace BackEnd.Model
                 );
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<RoomOrder>());
+                list.Add(new RoomOrder()
+                {
+                    OrderID = long.Parse(dr["ORDERID"].ToString()),
+                    RoomID = dr["ROOMID"].ToString(),
+                    CustomerID = dr["CUSTOMERID"].ToString(),
+                    StartTime = dr["STARTTIME"].ToString(),
+                    EndTime = dr["ENDTIME"].ToString(),
+                    Days = long.Parse(dr["DAYS"].ToString()),
+                    OrderStatus = dr["ORDERSTATUS"].ToString(),
+                    Violation = dr["VIOLATION"].ToString(),
+                    Amount = float.Parse(dr["AMOUNT"].ToString())
+                });
             }
             /*链表为空返回空*/
             if (!list.Any())

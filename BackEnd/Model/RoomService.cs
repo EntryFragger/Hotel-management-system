@@ -29,7 +29,16 @@ namespace BackEnd.Model
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                room_service = dr.DtToModel<RoomService>();
+                room_service = new RoomService()
+                {
+                    RoomID = dr["ROOMID"].ToString(),
+                    Time = dr["TIME"].ToString(),
+                    Type = dr["TYPE"].ToString(),
+                    Remark = dr["REMARK"].ToString(),
+                    Amount = long.Parse(dr["AMOUNT"].ToString()),
+                    Status = dr["STATUS"].ToString(),
+                    EmployeeID = long.Parse(dr["EMPLOYEEID"].ToString())
+                };
             }
             return room_service;
         }
@@ -105,7 +114,16 @@ namespace BackEnd.Model
             DataTable dt = DBHelper.ExecuteTable("SELECT * FROM ROOMSERVICE");
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<RoomService>());
+                list.Add(new RoomService()
+                {
+                    RoomID = dr["ROOMID"].ToString(),
+                    Time = dr["TIME"].ToString(),
+                    Type = dr["TYPE"].ToString(),
+                    Remark = dr["REMARK"].ToString(),
+                    Amount = long.Parse(dr["AMOUNT"].ToString()),
+                    Status = dr["STATUS"].ToString(),
+                    EmployeeID = long.Parse(dr["EMPLOYEEID"].ToString())
+                });
             }
             return list;
         }
@@ -116,7 +134,14 @@ namespace BackEnd.Model
             DataTable dt = DBHelper.ExecuteTable("SELECT RoomID , Time, Remark, Status, Type FROM ROOMSERVICE");
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<RoomServiceInfo>());
+                list.Add(new RoomServiceInfo()
+                {
+                    RoomID = dr["ROOMID"].ToString(),
+                    Time = dr["TIME"].ToString(),
+                    Type = dr["TYPE"].ToString(),
+                    Remark = dr["REMARK"].ToString(),
+                    Status = dr["STATUS"].ToString()
+                });
             }
             return list;
         }
@@ -131,7 +156,12 @@ namespace BackEnd.Model
                 );
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<RoomJobInfo>());
+                list.Add(new RoomJobInfo()
+                {
+                    RoomID = dr["ROOMID"].ToString(),
+                    Time = dr["TIME"].ToString(),
+                    Type = dr["TYPE"].ToString()
+                });
             }
             return list;
         }

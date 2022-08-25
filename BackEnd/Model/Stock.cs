@@ -18,7 +18,12 @@ namespace BackEnd.Model
             List<Stock> list = new List<Stock>();
             DataTable dt = DBHelper.ExecuteTable("SELECT* FROM STOCK");
             foreach (DataRow dr in dt.Rows)
-                list.Add(dr.DtToModel<Stock>());
+                list.Add(new Stock()
+                {
+                    Name = dr["NAME"].ToString(),
+                    Unit = dr["UNIT"].ToString(),
+                    Quantity = dr["QUANTITY"].ToString()
+                });
             return list;
         }
         public static int Delete(string name)
@@ -35,7 +40,13 @@ namespace BackEnd.Model
                 );
             if (dt.Rows.Count > 0)
             {
-                instance = dt.Rows[0].DtToModel<Stock>();
+                DataRow dr = dt.Rows[0];
+                instance = new Stock()
+                {
+                    Name = dr["NAME"].ToString(),
+                    Unit = dr["UNIT"].ToString(),
+                    Quantity = dr["QUANTITY"].ToString()
+                };
             }
             return instance;
         }

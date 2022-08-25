@@ -21,7 +21,11 @@ namespace BackEnd.Model
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                Vip = dr.DtToModel<Vip>();
+                Vip = new Vip()
+                {
+                    VipLv = int.Parse(dr["VIPLV"].ToString()),
+                    Discount = float.Parse(dr["DISCOUNT"].ToString())
+                };
             }
             return Vip;
         }
@@ -75,7 +79,11 @@ namespace BackEnd.Model
             DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Vip");
             foreach (DataRow dr in dt.Rows)
             {
-                list.Add(dr.DtToModel<Vip>());
+                list.Add(new Vip()
+                {
+                    VipLv = int.Parse(dr["VIPLV"].ToString()),
+                    Discount = float.Parse(dr["DISCOUNT"].ToString())
+                });
             }
             return list;
         }
