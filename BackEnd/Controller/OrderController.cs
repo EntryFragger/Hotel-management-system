@@ -29,7 +29,7 @@ namespace BackEnd.Controller
         public IActionResult Order_GetAll(string token_value)
         {
             EmployeeInforToken user = JWTHelper.GetUsers(token_value);
-            if (user.Department != "Logistics")
+            if (user.Department != "Reception")
             {
                 return BadRequest("权限不符");
             }
@@ -57,7 +57,7 @@ namespace BackEnd.Controller
         public IActionResult ListOrderByGuest(string customer_id, string token_value)
         {
             EmployeeInforToken user = JWTHelper.GetUsers(token_value);
-            if (user.Department != "Logistics")
+            if (user.Department != "Reception")
             {
                 return BadRequest("权限不符");
             }

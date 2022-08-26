@@ -79,7 +79,10 @@ namespace BackEnd.Controllers
                 return BadRequest("权限不符");
             }
             List<FinancialStatement> list = FinancialStatement.GetList();
-            return Ok(new JsonResult(list));
+            if (list != null)
+                return Ok(new JsonResult(list));
+            else
+                return NotFound("不存在财务报单信息");
         }
         /// <summary>
         /// 财务部调用审批财务报单，会将财务报单的状态从未通过改为通过

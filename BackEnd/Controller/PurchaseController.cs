@@ -62,7 +62,7 @@ namespace BackEnd.Controller
         public IActionResult Purchase_Create(string goods_name, string quantity, float price, string date, string unit, string token_value)
         {
             EmployeeInforToken user = JWTHelper.GetUsers(token_value);
-            if (user.Department != "Management")
+            if (user.Department != "Logistics")
             {
                 return BadRequest("权限不符");
             }
