@@ -48,7 +48,7 @@ namespace BackEnd.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult SubmitFinancialStatement(string tokenValue, string statementContent, long amount, string state)
+        public IActionResult SubmitFinancialStatement(string tokenValue, string statementContent, float amount, string state)
         {
             try
             {
