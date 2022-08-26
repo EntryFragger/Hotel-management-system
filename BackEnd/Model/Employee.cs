@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Oracle.ManagedDataAccess.Client;
-using System.Data;
 using BackEnd.Utility;
+using Oracle.ManagedDataAccess.Client;
+using System.Collections.Generic;
+using System.Data;
 
 namespace BackEnd.Model
 {
@@ -146,6 +143,8 @@ namespace BackEnd.Model
         }
         public static int Delete(long ID)
         {
+            if (Find(ID) == null)
+                return -1;
             return DBHelper.ExecuteNonQuery("DELETE FROM EMPLOYEE WHERE ID = :ID",
                 new OracleParameter(":ID", ID)
                 );
