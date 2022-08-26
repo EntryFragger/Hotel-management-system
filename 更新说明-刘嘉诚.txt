@@ -1,7 +1,0 @@
-1
-基本完成controller，并且修改了modle的一些细节
-将我的modle添加时不成功的情况修改为-1
-部分modle的amount将string修改为long
-
-2
-给controller加上了token验证，添加部分注释
