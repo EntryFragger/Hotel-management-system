@@ -94,6 +94,8 @@ namespace BackEnd.Controllers
                     return BadRequest("权限不符");
                 }
                 EmployeeInforDetailed employeeInfordetailed = Employee.GetInforDetailed(ID);
+                if(employeeInfordetailed==null)
+                    return NotFound("不存在该员工");
                 return Ok(new JsonResult(employeeInfordetailed));
             }
             catch (OracleException oe)
@@ -126,6 +128,9 @@ namespace BackEnd.Controllers
                 {
                     return NotFound("没有该员工");
                 }
+                if (newInfo.Department != "Logistics" && newInfo.Department != "Finance" &&
+                    newInfo.Department != "Management" && newInfo.Department != "Reception")
+                    return BadRequest("错误的部门名称");
                 string password = employee.Password;
                 Employee.Add(newInfo.ID, newInfo.Name, newInfo.Gender, newInfo.Age, newInfo.Salary, newInfo.PhoneNum, newInfo.Department, password);
                 return Ok("修改成功");
@@ -154,6 +159,9 @@ namespace BackEnd.Controllers
                 {
                     return BadRequest("权限不符");
                 }
+                if (newInfo.Department != "Logistics" && newInfo.Department != "Finance" &&
+                    newInfo.Department != "Management" && newInfo.Department != "Reception")
+                    return BadRequest("错误的部门名称");
                 long ID = Employee.NextID();
                 string password = "123";
                 Employee.Add(ID, newInfo.Name, newInfo.Gender, newInfo.Age, newInfo.Salary, newInfo.PhoneNum, newInfo.Department, password);

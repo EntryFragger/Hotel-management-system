@@ -46,12 +46,13 @@ namespace BackEnd.Controllers
         /// <param name="date">日期</param>
         /// <param name="itemID">设备ID</param>
         /// <param name="employeeID">员工ID</param>
+        /// <param name="itemName">设备名</param>
         /// <returns>信息提交结果</returns>
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult SubmitMaintenanceInfo(string tokenValue, string date, string itemID, long employeeID)
+        public IActionResult SubmitMaintenanceInfo(string tokenValue, string date, string itemID, long employeeID,string itemName)
         {
             try
             {
@@ -60,8 +61,8 @@ namespace BackEnd.Controllers
                 {
                     return BadRequest("权限不符");
                 }
-                Maintenance maintenance = Maintenance.Find(itemID);
-                string itemName = maintenance.ItemName;
+                if (Employee.Find(employeeID) == null)
+                    return NotFound("不存在该员工");
                 Maintenance.Add(itemID, employeeID, date, itemName);
                 return Ok("信息提交成功");
             }

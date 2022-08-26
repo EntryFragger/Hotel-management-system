@@ -27,6 +27,9 @@ namespace BackEnd.Controllers
         {
             try
             {
+                if (newInfo.Department != "Logistics" && newInfo.Department != "Finance" &&
+                    newInfo.Department != "Management" && newInfo.Department != "Reception")
+                    return BadRequest("错误的部门名称");
                 EmployeeInforToken user = JWTHelper.GetUsers(tokenValue);
                 Employee employee = Employee.Find(user.ID);
                 Employee.Add(employee.ID, newInfo.Name, newInfo.Gender, newInfo.Age, newInfo.Salary, newInfo.PhoneNum, newInfo.Department, employee.Password);
