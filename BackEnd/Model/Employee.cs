@@ -22,8 +22,10 @@ namespace BackEnd.Model
         public static long NextID()
         {
             long MaxID = -1;
-            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(ID) FROM EMPLOYEE");
-            if (dt.Rows.Count > 0)
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(ID) AS ID FROM EMPLOYEE");
+            if (GetAllSimple().Count == 0)
+                return 1;
+            else 
             {
                 DataRow dr = dt.Rows[0];
                 MaxID = long.Parse(dt.Rows[0]["ID"].ToString()) + 1;

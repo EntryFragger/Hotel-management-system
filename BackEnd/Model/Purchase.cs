@@ -74,22 +74,15 @@ namespace BackEnd.Model
         {
             long result = 0;
             Purchase ac = null;
-            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(PurchaseID)  FROM Purchase");
-            if (dt.Rows.Count > 0)
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(PurchaseID) AS PURCHASEID  FROM Purchase");
+            if (GetAllList() == null)
+                return 1;
+            else
             {
                 DataRow dr = dt.Rows[0];
-                ac = new Purchase()
-                {
-                    PurchaseID = long.Parse(dr["PURCHASEID"].ToString()),
-                    GoodsName = dr["GOODSNAME"].ToString(),
-                    Unit = dr["UNIT"].ToString(),
-                    Quantity = dr["QUANTITY"].ToString(),
-                    Price = float.Parse(dr["PRICE"].ToString()),
-                    Pdate = dr["PDATE"].ToString(),
-                };
-                result = ac.PurchaseID;
+                result = long.Parse(dr["PURCHASEID"].ToString())+1;
             }
-            return result + 1;
+            return result;
         }
 
         /*创建新的库存收购信息*/

@@ -55,25 +55,15 @@ namespace BackEnd.Model
         {
             long result = 0;
             RoomOrder ac = null;
-            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(OrderID)  FROM ROOMORDER");
-            if (dt.Rows.Count > 0)
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(OrderID) AS ORDERID  FROM ROOMORDER");
+            if (GetAllList() == null)
+                return 1;
+            else
             {
                 DataRow dr = dt.Rows[0];
-                ac = new RoomOrder()
-                {
-                    OrderID = long.Parse(dr["ORDERID"].ToString()),
-                    RoomID = dr["ROOMID"].ToString(),
-                    CustomerID = dr["CUSTOMERID"].ToString(),
-                    StartTime = dr["STARTTIME"].ToString(),
-                    EndTime = dr["ENDTIME"].ToString(),
-                    Days = long.Parse(dr["DAYS"].ToString()),
-                    OrderStatus = dr["ORDERSTATUS"].ToString(),
-                    Violation = dr["VIOLATION"].ToString(),
-                    Amount = float.Parse(dr["AMOUNT"].ToString())
-                };
-                result = ac.OrderID;
+                result = long.Parse(dr["ORDERID"].ToString())+1;
             }
-            return result + 1;
+            return result;
         }
 
         /*调用该函数将获取所有订单的所有信息，无订单返回null*/

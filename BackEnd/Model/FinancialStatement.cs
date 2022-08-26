@@ -13,13 +13,15 @@ namespace BackEnd.Model
         public long EmployeeID { set; get; }
         public long StatementID { set; get; }
         public string StatementContent { set; get; }
-        public long Amount { set; get; }
+        public float Amount { set; get; }
         public string State { set; get; }
         public static long NextStatementID()
         {
             long MaxID = -1;
-            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(StatementID) FROM FINANCIALSTATEMENT ");
-            if (dt.Rows.Count > 0)
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(StatementID) AS STATEMENTID FROM FINANCIALSTATEMENT ");
+            if (GetList().Count == 0)
+                return 1;
+            else 
             {
                 DataRow dr = dt.Rows[0];
                 MaxID = long.Parse(dt.Rows[0]["STATEMENTID"].ToString()) + 1;
@@ -38,7 +40,7 @@ namespace BackEnd.Model
                     EmployeeID = long.Parse(dr["EMPLOYEEID"].ToString()),
                     StatementID = long.Parse(dr["STATEMENTID"].ToString()),
                     StatementContent = dr["STATEMENTCONTENT"].ToString(),
-                    Amount = long.Parse(dr["AMOUNT"].ToString()),
+                    Amount = float.Parse(dr["AMOUNT"].ToString()),
                     State = dr["STATE"].ToString(),
                 });
             return list;
@@ -53,7 +55,7 @@ namespace BackEnd.Model
                     EmployeeID = long.Parse(dr["EMPLOYEEID"].ToString()),
                     StatementID = long.Parse(dr["STATEMENTID"].ToString()),
                     StatementContent = dr["STATEMENTCONTENT"].ToString(),
-                    Amount = long.Parse(dr["AMOUNT"].ToString()),
+                    Amount = float.Parse(dr["AMOUNT"].ToString()),
                     State = dr["STATE"].ToString(),
                 });
             return list;
@@ -72,14 +74,14 @@ namespace BackEnd.Model
                     EmployeeID = long.Parse(dr["EMPLOYEEID"].ToString()),
                     StatementID = long.Parse(dr["STATEMENTID"].ToString()),
                     StatementContent = dr["STATEMENTCONTENT"].ToString(),
-                    Amount = long.Parse(dr["AMOUNT"].ToString()),
+                    Amount = float.Parse(dr["AMOUNT"].ToString()),
                     State = dr["STATE"].ToString(),
                 };
             }
             return financialStatement;
 
         }
-        public static int Add(long employeeID, long statementID, string statementcontent, long amount, string state)
+        public static int Add(long employeeID, long statementID, string statementcontent, float amount, string state)
         {
             FinancialStatement financialStatement = Find(statementID);
             if (financialStatement != null)

@@ -38,29 +38,18 @@ namespace BackEnd.Model
             }
             return ac;
         }
-
+      
         /*用于生成下一个ID*/
         public static long NextID()
         {
             long result = 0;
-            Account ac = null;
-            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(AccountID)  FROM ACCOUNT");
-            if (dt.Rows.Count > 0 && dt.Rows[0][0] != null)
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(AccountID) AS ACCOUNTID  FROM ACCOUNT");
+            if (GetAllList().Count == 0)
+                return 1;
+            else
             {
                 DataRow dr = dt.Rows[0];
                 result = long.Parse(dr["ACCOUNTID"].ToString()) + 1;
-                /*ac = new Account()
-                {
-                    AccountID = long.Parse(dr["ACCOUNTID"].ToString()),
-                    Adate = dr["ADATE"].ToString(),
-                    Amount = float.Parse(dr["AMOUNT"].ToString()),
-                    Type = dr["TYPE"].ToString()
-                };*/
-                //result = ac.AccountID;
-            }
-            else
-            {
-                result = 1;
             }
             return result;
         }
