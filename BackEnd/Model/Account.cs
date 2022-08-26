@@ -38,7 +38,7 @@ namespace BackEnd.Model
             }
             return ac;
         }
-      
+
         /*用于生成下一个ID*/
         public static long NextID()
         {
@@ -54,6 +54,7 @@ namespace BackEnd.Model
             return result;
         }
 
+
         /*调用该函数将获取所有收支信息，无收支信息返回null*/
         public static List<Account> GetAllList()
         {
@@ -61,7 +62,6 @@ namespace BackEnd.Model
             DataTable dt = DBHelper.ExecuteTable("SELECT * FROM Account");
             foreach (DataRow dr in dt.Rows)
             {
-                
                 list.Add(new Account()
                 {
                     AccountID = long.Parse(dr["ACCOUNTID"].ToString()),

@@ -80,7 +80,7 @@ namespace BackEnd.Model
             else
             {
                 DataRow dr = dt.Rows[0];
-                result = long.Parse(dr["PURCHASEID"].ToString())+1;
+                result = long.Parse(dr["PURCHASEID"].ToString()) + 1;
             }
             return result;
         }
@@ -92,7 +92,7 @@ namespace BackEnd.Model
             Purchase pr = Find(PID);
             if (pr == null)
             {
-                return DBHelper.ExecuteNonQuery("INSERT INTO Purchase(PurchaseID,GoodsName,Unit,Quantity,Price,Pdate) VALUES(:PurchaseID,:GoodsName,:Unit,:Price,:Pdate)",
+                return DBHelper.ExecuteNonQuery("INSERT INTO Purchase(PurchaseID,GoodsName,Unit,Quantity,Price,Pdate) VALUES(:PurchaseID,:GoodsName,:Quantity,:Unit,:Price,:Pdate)",
                     new OracleParameter(":PurchaseID", PID),
                     new OracleParameter(":GoodsName", goodsname),
                     new OracleParameter(":Unit", unit),

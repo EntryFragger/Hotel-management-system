@@ -220,10 +220,20 @@ namespace BackEnd.Model
             RoomOrder room_order = Find(order_id);
             if (room_order != null)
             {
-                return DBHelper.ExecuteNonQuery("UPDATE RoomOrder SET OrderStatus = :OrderStatus WHERE OrderID = :OrderID",
-                    new OracleParameter(":OrderID", order_id),
-                    new OracleParameter(":OrderStatus", status)
-                    );
+                DBHelper.ExecuteNonQuery("DELETE FROM ROOMORDER WHERE ORDERID = :ORDERID",
+                   new OracleParameter(":ORDERID", order_id)
+                   );
+                return DBHelper.ExecuteNonQuery("INSERT INTO RoomOrder(OrderID,RoomID,CustomerID,StartTime,EndTime,Days,OrderStatus,Violation,Amount) VALUES(:OrderID,:RoomID,:CustomerID,:StartTime,:EndTime,:Days,:OrderStatus,:Violation,:Amount)",//后面几个应该也有冒号吧，添加了days
+                   new OracleParameter(":OrderID", room_order.OrderID),
+                   new OracleParameter(":RoomID", room_order.RoomID),
+                   new OracleParameter(":CustomerID", room_order.CustomerID),
+                   new OracleParameter(":StartTime", room_order.StartTime),
+                   new OracleParameter(":EndTime", room_order.EndTime),
+                    new OracleParameter(":Days", room_order.Days),//添加了days
+                   new OracleParameter(":OrderStatus", status),
+                    new OracleParameter(":Violation", null),
+                   new OracleParameter(":Amount", room_order.Amount)
+                   );
             }
             else
             {
