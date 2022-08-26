@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,16 +25,16 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        
+
         public IActionResult Order_GetAll(string token_value)
         {
             EmployeeInforToken user = JWTHelper.GetUsers(token_value);
-            if(user.Department!= "Logistics")
+            if (user.Department != "Logistics")
             {
                 return BadRequest("权限不符");
             }
             List<RoomOrder> list = RoomOrder.GetAllList();
-            if (list!=null)
+            if (list != null)
             {
                 return Ok(new JsonResult(list));
             }
@@ -53,8 +53,8 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        
-        public IActionResult ListOrderByGuest(string customer_id,string token_value)
+
+        public IActionResult ListOrderByGuest(string customer_id, string token_value)
         {
             EmployeeInforToken user = JWTHelper.GetUsers(token_value);
             if (user.Department != "Logistics")
@@ -112,20 +112,20 @@ namespace BackEnd.Controller
                 //一切正常，开始进行退房操作
                 List<RoomOrder> list = RoomOrder.ListByRoom(room_id);
                 RoomOrder or = null;
-                for(int i=0;i<list.Count;i++)
+                for (int i = 0; i < list.Count; i++)
                 {
-                    if(list[i].OrderStatus=="ing")
+                    if (list[i].OrderStatus == "ing")
                     {
                         or = list[i];
                     }
                 }
-                int issuccess_one=RoomOrder.Change_Order_Status(or.OrderID);
+                int issuccess_one = RoomOrder.Change_Order_Status(or.OrderID);
                 /*以上为改变订单状态,成功改变订单状态则开始改变坊间状态*/
                 if (issuccess_one != -1)
                 {
                     int issuccess = Room.Change_Room_Status(room_id, "Available");
                     //只有房间状态也修改成功才算完成退房
-                    if(issuccess!=-1)
+                    if (issuccess != -1)
                         return Ok("退房成功");
                     else
                         return NotFound("退房失败");

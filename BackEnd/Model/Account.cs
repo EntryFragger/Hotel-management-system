@@ -44,20 +44,25 @@ namespace BackEnd.Model
         {
             long result = 0;
             Account ac = null;
-            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(AccountID)  FROM Account");
-            if (dt.Rows.Count > 0)
+            DataTable dt = DBHelper.ExecuteTable("SELECT MAX(AccountID)  FROM ACCOUNT");
+            if (dt.Rows.Count > 0 && dt.Rows[0][0] != null)
             {
                 DataRow dr = dt.Rows[0];
-                ac = new Account()
+                result = long.Parse(dr["ACCOUNTID"].ToString()) + 1;
+                /*ac = new Account()
                 {
                     AccountID = long.Parse(dr["ACCOUNTID"].ToString()),
                     Adate = dr["ADATE"].ToString(),
                     Amount = float.Parse(dr["AMOUNT"].ToString()),
                     Type = dr["TYPE"].ToString()
-                };
-                result = ac.AccountID;
+                };*/
+                //result = ac.AccountID;
             }
-            return result + 1;
+            else
+            {
+                result = 1;
+            }
+            return result;
         }
 
         /*调用该函数将获取所有收支信息，无收支信息返回null*/

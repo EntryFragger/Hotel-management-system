@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -61,7 +61,7 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        
+
         public IActionResult DeleteStock(string tokenValue, string Name)//删除某库存
         {
             try
@@ -99,7 +99,7 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        
+
         public IActionResult ChangeStock(string tokenValue, string name, string unit, string quantity)//修改库存
         {
             try

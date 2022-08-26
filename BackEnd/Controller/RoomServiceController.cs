@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -90,15 +90,16 @@ namespace BackEnd.Controller
                 {
                     return BadRequest("输入服务类型错误");
                 }
-                if(type == "维修" || type == "清洁")
+                if (type == "维修" || type == "清洁")
                 {
-                    if(amount != 0)
+                    if (amount != 0)
                     {
                         return BadRequest("维修与清洁服务价格错误");
                     }
                 }
                 //返回结果
-                int issuccess = RoomService.AddRoomService(room_id, time, type, remark, amount, "UnDone", RoomService.Jobdistribution());
+                long emid = RoomService.Jobdistribution();
+                int issuccess = RoomService.AddRoomService(room_id, time, type, remark, amount, "UnDone", emid);
                 if (issuccess != -1)
                 {
                     return Ok("住房服务创建成功");
@@ -186,7 +187,7 @@ namespace BackEnd.Controller
                 if (issuccess != -1)
                 {
                     string current_status = RoomService.Find(room_id, time).Status;
-                    if(current_status == "Done")
+                    if (current_status == "Done")
                     {
                         long aid = Account.NextID();
                         string date = DateTime.Now.ToLongDateString();

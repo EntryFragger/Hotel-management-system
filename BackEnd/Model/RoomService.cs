@@ -46,7 +46,7 @@ namespace BackEnd.Model
         public static long Jobdistribution()
         {
             long lucky_employee_id = -1;
-            DataTable dt = DBHelper.ExecuteTable("SELECT distinct(ID) FROM EMPLOYEE");
+            DataTable dt = DBHelper.ExecuteTable("SELECT ID FROM EMPLOYEE");
             if(dt.Rows.Count == 0)
             {
                 return lucky_employee_id;
@@ -57,7 +57,7 @@ namespace BackEnd.Model
                 Random rd = new Random();
                 int number = rd.Next(0, employee_number);
                 //DataRow dr = dt.Rows[number];
-                String dm = dt.Rows[number].ToString();
+                String dm = dt.Rows[number][0].ToString();
                 lucky_employee_id = long.Parse(dm);
                 return lucky_employee_id;
             }
@@ -93,13 +93,22 @@ namespace BackEnd.Model
         public static int Change_RoomService_Status(string roomid, string time, string status)
         {
             RoomService room_service = Find(roomid, time);
+            
             if (room_service != null)
             {
-                return DBHelper.ExecuteNonQuery("UPDATE ROOMSERVICE SET Status = :Status WHERE RoomID = :RoomID AND Time = :Time",
+                DBHelper.ExecuteNonQuery("DELETE FROM ROOMSERVICE WHERE RoomID = :RoomID AND Time = :Time",
                     new OracleParameter(":RoomID", roomid),
-                    new OracleParameter(":Time", time),
-                    new OracleParameter(":Status", status)
+                    new OracleParameter(":Time", time)
                     );
+                return DBHelper.ExecuteNonQuery("INSERT INTO ROOMSERVICE(RoomID,Time,Type,Remark,Amount,Status,EmployeeID) VALUES(:RoomID,:Time,:Type,:Remark,:Amount,:Status,:EmployeeID)",
+                   new OracleParameter(":RoomID", roomid),
+                    new OracleParameter(":Time", time),
+                    new OracleParameter(":Type", room_service.Type),
+                    new OracleParameter(":Remark", room_service.Remark),
+                    new OracleParameter(":Amount", room_service.Amount),
+                    new OracleParameter(":Status", status),
+                    new OracleParameter(":EmployeeID", room_service.EmployeeID)
+                   );
             }
             else
             {

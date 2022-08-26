@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -54,7 +54,7 @@ namespace BackEnd.Controller
                 {
                     return BadRequest("该房间不存在");
                 }
-                if (room_status != "Avaliable")
+                if (room_status != "Available")
                 {
                     return BadRequest("该房间已入住");
                 }

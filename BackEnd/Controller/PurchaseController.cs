@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -58,7 +58,7 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        
+
         public IActionResult Purchase_Create(string goods_name, string quantity, float price, string date, string unit, string token_value)
         {
             EmployeeInforToken user = JWTHelper.GetUsers(token_value);
