@@ -39,7 +39,19 @@ namespace BackEnd.Controllers
                 JWTPayload jwt = new JWTPayload();
                 jwt.ID = employee.ID;
                 jwt.Department = employee.Department;
-                return Ok(JWTHelper.SetJwtEncode(jwt));
+                EmployeeInforDetailed employeeInforDetailed = Employee.GetInforDetailed(ID);
+                EmployeeLoginInfor employeeLoginInfor = new EmployeeLoginInfor()
+                {
+                    ID = employeeInforDetailed.ID,
+                    Name= employeeInforDetailed.Name,
+                    Gender= employeeInforDetailed.Gender,
+                    Age= employeeInforDetailed.Age,
+                    Salary= employeeInforDetailed.Salary,
+                    PhoneNum= employeeInforDetailed.PhoneNum,
+                    Department= employeeInforDetailed.Department,
+                    token= JWTHelper.SetJwtEncode(jwt)
+                };
+                return Ok(new JsonResult(employeeLoginInfor));
             }
             catch (OracleException oe)
             {
