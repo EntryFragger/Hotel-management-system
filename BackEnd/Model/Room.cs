@@ -116,7 +116,7 @@ namespace BackEnd.Model
                 return DBHelper.ExecuteNonQuery("INSERT INTO ROOM(RoomID,RoomType,RoomStatus,RoomPrice) VALUES(:RoomID,:RoomType,:RoomStatus,:RoomPrice)",
                    new OracleParameter(":RoomID", ID),
                    new OracleParameter(":RoomType", room.RoomType),
-                   new OracleParameter(":RoomStatus", room.RoomStatus),
+                   new OracleParameter(":RoomStatus", status),
                    new OracleParameter(":RoomPrice", room.RoomPrice)
                    );
             }
