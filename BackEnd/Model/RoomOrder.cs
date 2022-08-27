@@ -61,7 +61,7 @@ namespace BackEnd.Model
             else
             {
                 DataRow dr = dt.Rows[0];
-                result = long.Parse(dr["ORDERID"].ToString())+1;
+                result = long.Parse(dr["ORDERID"].ToString()) + 1;
             }
             return result;
         }
@@ -87,7 +87,7 @@ namespace BackEnd.Model
                 });
             }
             /*为空返回空*/
-            if (!list.Any())
+            if (list.Count==0)
                 return null;
             return list;
         }
