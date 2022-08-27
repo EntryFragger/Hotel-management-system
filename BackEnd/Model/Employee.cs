@@ -22,7 +22,7 @@ namespace BackEnd.Model
             DataTable dt = DBHelper.ExecuteTable("SELECT MAX(ID) AS ID FROM EMPLOYEE");
             if (GetAllSimple().Count == 0)
                 return 1;
-            else 
+            else
             {
                 DataRow dr = dt.Rows[0];
                 MaxID = long.Parse(dt.Rows[0]["ID"].ToString()) + 1;
@@ -43,11 +43,11 @@ namespace BackEnd.Model
                     ID = long.Parse(dr["ID"].ToString()),
                     Name = dr["NAME"].ToString(),
                     Gender = dr["GENDER"].ToString(),
-                    Age=dr["AGE"].ToString(),
+                    Age = dr["AGE"].ToString(),
                     PhoneNum = dr["PHONENUM"].ToString(),
                     Salary = dr["SALARY"].ToString(),
                     Department = dr["DEPARTMENT"].ToString(),
-                    Password= dr["PASSWORD"].ToString()
+                    Password = dr["PASSWORD"].ToString()
                 };
             }
             return instance;
@@ -123,7 +123,7 @@ namespace BackEnd.Model
                 };
 
             }
-               
+
             return employee;
         }
         public static List<EmployeeInforSimple> QueryByDep(string department)
@@ -201,5 +201,18 @@ namespace BackEnd.Model
         public string PhoneNum { set; get; }
         public string Department { set; get; }
     }
+
+    public class EmployeeLoginInfor
+    {
+        public long ID { set; get; }
+        public string Name { set; get; }
+        public string Gender { set; get; }
+        public string Age { set; get; }
+        public string Salary { set; get; }
+        public string PhoneNum { set; get; }
+        public string Department { set; get; }
+        public string  token { set; get; }
+    }
+
 
 }
