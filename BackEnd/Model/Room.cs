@@ -99,7 +99,7 @@ namespace BackEnd.Model
                 );
             if (dt.Rows.Count > 0)
             {
-                String dm = dt.Rows[0].ToString();
+                String dm = dt.Rows[0]["ROOMPRICE"].ToString();
                 Price = int.Parse(dm);
             }
             return Price;
@@ -181,4 +181,5 @@ namespace BackEnd.Model
         public string RoomPrice { set; get; }
     }
 }
+
 
