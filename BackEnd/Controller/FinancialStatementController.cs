@@ -96,7 +96,7 @@ namespace BackEnd.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
 
-        public IActionResult GetFinancialStatement(string token_value, long sID)
+        public IActionResult ApprovalFinancialStatement(string token_value, long sID)
         {
             EmployeeInforToken user = JWTHelper.GetUsers(token_value);
             if (user.Department != "Finance")
