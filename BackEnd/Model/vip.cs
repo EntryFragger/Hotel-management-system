@@ -52,7 +52,7 @@ namespace BackEnd.Model
                 );
             if (dt.Rows.Count > 0)
             {
-                String dm = dt.Rows[0].ToString();
+                String dm = dt.Rows[0]["DISCOUNT"].ToString();
                 discount = float.Parse(dm);
             }
             return discount;
