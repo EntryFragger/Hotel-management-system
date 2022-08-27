@@ -19,7 +19,7 @@ namespace BackEnd.Model
         {
             long MaxID = -1;
             DataTable dt = DBHelper.ExecuteTable("SELECT MAX(StatementID) AS STATEMENTID FROM FINANCIALSTATEMENT ");
-            if (GetList().Count == 0)
+            if (GetListAll()==null)
                 return 1;
             else
             {
@@ -45,7 +45,7 @@ namespace BackEnd.Model
                 });
             return list;
         }
-        public static List<FinancialStatement> GetList()
+        public static List<FinancialStatement> GetListAll()
         {
             List<FinancialStatement> list = new List<FinancialStatement>();
             DataTable dt = DBHelper.ExecuteTable("SELECT * FROM FINANCIALSTATEMENT ");
