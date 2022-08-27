@@ -44,7 +44,7 @@ namespace BackEnd.Model
         {
             long result = 0;
             DataTable dt = DBHelper.ExecuteTable("SELECT MAX(AccountID) AS ACCOUNTID  FROM ACCOUNT");
-            if (GetAllList().Count == 0)
+            if (GetAllList() == null)
                 return 1;
             else
             {
