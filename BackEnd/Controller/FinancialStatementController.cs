@@ -48,12 +48,13 @@ namespace BackEnd.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult SubmitFinancialStatement(string tokenValue, string statementContent, float amount, string state)
+        public IActionResult SubmitFinancialStatement(string tokenValue, string statementContent, float amount)
         {
             try
             {
                 long statementID = FinancialStatement.NextStatementID();
                 EmployeeInforToken user = JWTHelper.GetUsers(tokenValue);
+                string state = "pending";
                 FinancialStatement.Add(user.ID, statementID, statementContent, amount, state);
                 return Ok("提交财务报单成功");
             }
@@ -78,7 +79,7 @@ namespace BackEnd.Controllers
             {
                 return BadRequest("权限不符");
             }
-            List<FinancialStatement> list = FinancialStatement.GetList();
+            List<FinancialStatement> list = FinancialStatement.GetListAll();
             if (list != null)
                 return Ok(new JsonResult(list));
             else
@@ -102,14 +103,21 @@ namespace BackEnd.Controllers
             {
                 return BadRequest("权限不符");
             }
-            int success = FinancialStatement.Change_FinicalStatement_Status(sID);
-            if (success != -1)
+            FinancialStatement fs = FinancialStatement.Find(sID);
+            if(fs==null)
             {
-                return Ok("审批成功");
+                return NotFound("不存在财务报单");
+            }
+            else if(fs.State=="passed")
+            {
+                return BadRequest("请勿重复审批");
             }
             else
             {
-                return NotFound("不存在财务报单");
+                FinancialStatement.Change_FinicalStatement_Status(sID);
+                string type = "expenses";
+                Account.CreateAccount(Account.NextID(), DateTime.Now.ToLongDateString(), fs.Amount, type);
+                return Ok("审批成功");
             }
         }
     }
