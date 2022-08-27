@@ -66,16 +66,25 @@ namespace BackEnd.Model
           }*/
         public static int ChangeVip(string ID, int VipLv)//修改vip等级
         {
-            return DBHelper.ExecuteNonQuery("UPDATE Customer SET CustomerID = :CustomerID,VipLv=:VipLv  FROM Customer WHERE CustomerID = :CustomerID",
-                   new OracleParameter(":CustomerID", ID),
-                     new OracleParameter(":VipLv", VipLv)
-                );
+            Customer customer = Find(ID);
+            DBHelper.ExecuteNonQuery("DELETE FROM Customer WHERE CustomerID = :CustomerID",
+                  new OracleParameter(":CustomerID", ID)
+                  );
+           return DBHelper.ExecuteNonQuery("INSERT INTO Customer(CustomerID,Name,Gender,PhoneNum,Area,VipLv) VALUES(:CustomerID,:Name,:Gender,:PhoneNum,:Area,:VipLv)",
+                      new OracleParameter(":CustomerID", ID),
+                      new OracleParameter(":Name", customer.Name),
+                      new OracleParameter(":Gender", customer.Gender),
+                      new OracleParameter(":PhoneNum", customer.PhoneNum),
+                      new OracleParameter(":Area", customer.Area),
+                       new OracleParameter(":VipLv", VipLv)
+                      );
         }
         public static int ChangeCustomer(string ID, string Name, string Gender, string PhoneNum, string Area, int VipLv)
         {
             Customer Customer = Find(ID);
             if (Customer != null)
             {
+
                 return DBHelper.ExecuteNonQuery("UPDATE Customer SET CustomerID = :CustomerID,Name = :Name,Gender = :Gender,PhoneNum = :PhoneNum ,VipLv=:VipLv WHERE CustomerID = :CustomerID",
                    new OracleParameter(":CustomerID", ID),
                     new OracleParameter(":Name", Name),
@@ -116,7 +125,7 @@ namespace BackEnd.Model
                 );
             if (dt.Rows.Count > 0)
             {
-                String dm = dt.Rows[0].ToString();
+                String dm = dt.Rows[0]["VIPLV"].ToString();
                 vip = int.Parse(dm);
             }
             return vip;
