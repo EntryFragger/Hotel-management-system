@@ -110,14 +110,9 @@ namespace BackEnd.Model
             Room room = Find(ID);
             if (room != null)
             {
-                DBHelper.ExecuteNonQuery("DELETE FROM ROOM WHERE RoomID = :RoomID",
-                   new OracleParameter(":RoomID", ID)
-                   );
-                return DBHelper.ExecuteNonQuery("INSERT INTO ROOM(RoomID,RoomType,RoomStatus,RoomPrice) VALUES(:RoomID,:RoomType,:RoomStatus,:RoomPrice)",
-                   new OracleParameter(":RoomID", ID),
-                   new OracleParameter(":RoomType", room.RoomType),
+                return DBHelper.ExecuteNonQuery("UPDATE ROOM SET RoomStatus=:RoomStatus WHERE RoomID=:RoomID",
                    new OracleParameter(":RoomStatus", status),
-                   new OracleParameter(":RoomPrice", room.RoomPrice)
+                   new OracleParameter(":RoomID", ID)
                    );
             }
             else

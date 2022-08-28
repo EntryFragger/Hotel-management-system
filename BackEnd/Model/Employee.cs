@@ -79,19 +79,15 @@ namespace BackEnd.Model
             Employee employee = Employee.Find(ID);
             if (employee != null)
             {
-                DBHelper.ExecuteNonQuery("DELETE FROM EMPLOYEE WHERE ID = :ID",
-                  new OracleParameter(":ID", ID)
-                  );
-                return DBHelper.ExecuteNonQuery("INSERT INTO EMPLOYEE(ID,Name,Gender,Age,PhoneNum,Salary,Department,Password)" +
-                "VALUES(:ID,:Name,:Gender,:Age,:PhoneNum,:Salary,:Department,:Password) ",
-                new OracleParameter(":ID", ID),
+                return DBHelper.ExecuteNonQuery("UPDATE EMPLOYEE SET Name=:Name,Gender=:Gender,Age=:Age,PhoneNum=:PhoneNum,Salary=:Salary,Department=:Department,Password=:Password WHERE ID=:ID",
                 new OracleParameter(":Name", name),
                 new OracleParameter(":Gender", gender),
                 new OracleParameter(":Age", age),
-                new OracleParameter(":Salary", salary),
                 new OracleParameter(":PhoneNum", phonenum),
+                new OracleParameter(":Salary", salary),
                 new OracleParameter(":Department", department),
-                new OracleParameter(":Password", password)
+                new OracleParameter(":Password", password),
+                new OracleParameter(":ID", ID)
                 );
             }
             return DBHelper.ExecuteNonQuery("INSERT INTO EMPLOYEE(ID,Name,Gender,Age,PhoneNum,Salary,Department,Password)" +
@@ -100,8 +96,8 @@ namespace BackEnd.Model
               new OracleParameter(":Name", name),
               new OracleParameter(":Gender", gender),
               new OracleParameter(":Age", age),
-              new OracleParameter(":Salary", salary),
               new OracleParameter(":PhoneNum", phonenum),
+              new OracleParameter(":Salary", salary),
               new OracleParameter(":Department", department),
               new OracleParameter(":Password", password)
               );

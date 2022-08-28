@@ -66,17 +66,9 @@ namespace BackEnd.Model
           }*/
         public static int ChangeVip(string ID, int VipLv)//修改vip等级
         {
-            Customer customer = Find(ID);
-            DBHelper.ExecuteNonQuery("DELETE FROM Customer WHERE CustomerID = :CustomerID",
-                  new OracleParameter(":CustomerID", ID)
-                  );
-           return DBHelper.ExecuteNonQuery("INSERT INTO Customer(CustomerID,Name,Gender,PhoneNum,Area,VipLv) VALUES(:CustomerID,:Name,:Gender,:PhoneNum,:Area,:VipLv)",
-                      new OracleParameter(":CustomerID", ID),
-                      new OracleParameter(":Name", customer.Name),
-                      new OracleParameter(":Gender", customer.Gender),
-                      new OracleParameter(":PhoneNum", customer.PhoneNum),
-                      new OracleParameter(":Area", customer.Area),
-                       new OracleParameter(":VipLv", VipLv)
+           return DBHelper.ExecuteNonQuery("UPDATE CUSTOMER SET VipLv=:VipLv WHERE CustomerID=:CustomerID",
+                       new OracleParameter(":VipLv", VipLv),
+                        new OracleParameter(":CustomerID", ID)
                       );
         }
         public static int ChangeCustomer(string ID, string Name, string Gender, string PhoneNum, string Area, int VipLv)

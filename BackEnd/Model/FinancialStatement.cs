@@ -120,17 +120,10 @@ namespace BackEnd.Model
             FinancialStatement financialstatement = Find(f_id);
             if (financialstatement != null)
             {
-                DBHelper.ExecuteNonQuery("DELETE FROM FinancialStatement WHERE StatementID = :StatementID",
-                   new OracleParameter(":ORDERID", f_id)
-                   );
-                return DBHelper.ExecuteNonQuery("INSERT INTO FINANCIALSTATEMENT(EmployeeID,StatementID,StatementContent,Amount,State)" +
-                     "VALUES(:EmployeeID,:StatementID,:StatementContent,:Amount,:State) ",
-                       new OracleParameter(":EmployeeID", financialstatement.EmployeeID),
-                       new OracleParameter(":StatementID", f_id),
-                       new OracleParameter(":StatementContent", financialstatement.StatementContent),
-                       new OracleParameter(":Amount", financialstatement.Amount),
-                       new OracleParameter(":State", status)
-                       );
+                return DBHelper.ExecuteNonQuery("UPDATE FINANCIALSTATEMENT SET State =:State WHERE StatementID =:StatementID",
+              new OracleParameter(":State", status),
+              new OracleParameter(":StatementID", f_id)
+              );
             }
             else
             {
