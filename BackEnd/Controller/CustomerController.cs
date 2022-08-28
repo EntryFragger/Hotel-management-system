@@ -69,7 +69,7 @@ namespace BackEnd.Controller
                     int vipLv = Customer.FindVip(CustomerID);//找到该顾客vip等级
                     float discount = Vip.SelectDiscount(vipLv);//对应折扣
                     int roomprice = Room.FindRoomPrice(RoomID);//找到该房间单价
-                    float price = Days * discount * roomprice;//计算金额
+                    float price = Days * (1-discount) * roomprice;//计算金额
                     RoomOrder.CreateOrder(OID, RoomID, CustomerID, starttime, endtime, Days, price);//创建订单
                     long AccountID = Account.NextID();
                     Account.CreateAccount(AccountID, starttime, price, "income");//收支订单
