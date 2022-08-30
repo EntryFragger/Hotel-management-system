@@ -46,7 +46,7 @@ namespace BackEnd.Model
         public static long Jobdistribution()
         {
             long lucky_employee_id = -1;
-            DataTable dt = DBHelper.ExecuteTable("SELECT ID FROM EMPLOYEE");
+            DataTable dt = DBHelper.ExecuteTable("SELECT ID FROM EMPLOYEE WHERE Department='Logistics'");
             if(dt.Rows.Count == 0)
             {
                 return lucky_employee_id;
