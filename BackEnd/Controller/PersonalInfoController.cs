@@ -23,16 +23,16 @@ namespace BackEnd.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult ResetInfor(string tokenValue, EmployeeInforDetailedWithoutID newInfo)
+        public IActionResult ResetInfor(string tokenValue, string name, string gender, string age, string salary, string phoneNum, string department)
         {
             try
             {
-                if (newInfo.Department != "Logistics" && newInfo.Department != "Finance" &&
-                    newInfo.Department != "Management" && newInfo.Department != "Reception")
+                if (department != "Logistics" && department != "Finance" &&
+                   department != "Management" && department != "Reception")
                     return BadRequest("错误的部门名称");
                 EmployeeInforToken user = JWTHelper.GetUsers(tokenValue);
                 Employee employee = Employee.Find(user.ID);
-                Employee.Add(employee.ID, newInfo.Name, newInfo.Gender, newInfo.Age, newInfo.Salary, newInfo.PhoneNum, newInfo.Department, employee.Password);
+                Employee.Add(employee.ID, name, gender, age, salary, phoneNum, department,employee.Password);
                 return Ok("修改成功");
 
             }

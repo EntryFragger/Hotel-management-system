@@ -99,6 +99,8 @@ namespace BackEnd.Controller
                 }
                 //返回结果
                 long emid = RoomService.Jobdistribution();
+                if (emid == -1)
+                    return BadRequest("后勤部无人手");
                 int issuccess = RoomService.AddRoomService(room_id, time, type, remark, amount, "UnDone", emid);
                 if (issuccess != -1)
                 {

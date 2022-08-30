@@ -114,7 +114,7 @@ namespace BackEnd.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult ChangeEmployeeInfor(string tokenValue, EmployeeInforDetailed newInfo)
+        public IActionResult ChangeEmployeeInfor(string tokenValue, long ID, string name,string gender,string age,string salary,string phoneNum,string department)
         {
             try
             {
@@ -123,16 +123,16 @@ namespace BackEnd.Controllers
                 {
                     return BadRequest("权限不符");
                 }
-                Employee employee = Employee.Find(newInfo.ID);
+                Employee employee = Employee.Find(ID);
                 if (employee == null)
                 {
                     return NotFound("没有该员工");
                 }
-                if (newInfo.Department != "Logistics" && newInfo.Department != "Finance" &&
-                    newInfo.Department != "Management" && newInfo.Department != "Reception")
+                if (department != "Logistics" && department != "Finance" &&
+                    department != "Management" && department != "Reception")
                     return BadRequest("错误的部门名称");
                 string password = employee.Password;
-                Employee.Add(newInfo.ID, newInfo.Name, newInfo.Gender, newInfo.Age, newInfo.Salary, newInfo.PhoneNum, newInfo.Department, password);
+                Employee.Add(ID, name, gender, age, salary, phoneNum, department, password);
                 return Ok("修改成功");
             }
             catch (OracleException oe)
@@ -150,7 +150,7 @@ namespace BackEnd.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult AddEmployeeInfor(string tokenValue, EmployeeInforDetailedWithoutID newInfo)
+        public IActionResult AddEmployeeInfor(string tokenValue, string name, string gender, string age, string salary, string phoneNum, string department)
         {
             try
             {
@@ -159,12 +159,12 @@ namespace BackEnd.Controllers
                 {
                     return BadRequest("权限不符");
                 }
-                if (newInfo.Department != "Logistics" && newInfo.Department != "Finance" &&
-                    newInfo.Department != "Management" && newInfo.Department != "Reception")
+                if (department != "Logistics" && department != "Finance" &&
+                    department != "Management" && department != "Reception")
                     return BadRequest("错误的部门名称");
                 long ID = Employee.NextID();
                 string password = "123";
-                Employee.Add(ID, newInfo.Name, newInfo.Gender, newInfo.Age, newInfo.Salary, newInfo.PhoneNum, newInfo.Department, password);
+                Employee.Add(ID, name, gender, age, salary, phoneNum, department,password);
                 return Ok("增加成功");
             }
             catch (OracleException oe)

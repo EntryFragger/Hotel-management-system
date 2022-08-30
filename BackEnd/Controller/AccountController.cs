@@ -29,7 +29,7 @@ namespace BackEnd.Controller
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult GetAllAcount(string token_value)
+        public IActionResult GetAllAccount(string token_value)
         {
             EmployeeInforToken user = JWTHelper.GetUsers(token_value);
             if (user.Department != "Finance")
