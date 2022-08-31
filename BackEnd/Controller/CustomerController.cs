@@ -18,7 +18,7 @@ namespace BackEnd.Controller
     public class CustomerController : ControllerBase
     {
         /// <summary>
-        /// 顾客订房操作
+        /// 顾客预定房间操作
         /// </summary>
         /// <param name="tokenValue">token</param>
         /// <param name="RoomID">房间ID</param>
@@ -49,18 +49,16 @@ namespace BackEnd.Controller
                 {
                     return BadRequest("输入信息有误");
                 }
-                string room_status = Room.Find(RoomID).RoomStatus;
                 if (Room.Find(RoomID) == null)
                 {
                     return BadRequest("该房间不存在");
                 }
-                if (room_status != "Available")
+                if (RoomOrder.ifReserved(starttime,endtime, RoomID))
                 {
-                    return BadRequest("该房间已入住");
+                    return BadRequest("该房间已被预定");
                 }
                 else
                 {
-                    Room.Change_Room_Status(RoomID, "Occupied");//房间状态改为已入住
                     if (Customer.Find(CustomerID) == null)//新顾客
                     {
                         Customer.AddCustomer(CustomerID, Name, Gender, PhoneNum, Area, 0);//vip等级默认为0
@@ -69,7 +67,7 @@ namespace BackEnd.Controller
                     int vipLv = Customer.FindVip(CustomerID);//找到该顾客vip等级
                     float discount = Vip.SelectDiscount(vipLv);//对应折扣
                     int roomprice = Room.FindRoomPrice(RoomID);//找到该房间单价
-                    float price = Days * (1-discount) * roomprice;//计算金额
+                    float price = Days * (100-discount)/100 * roomprice;//计算金额
                     RoomOrder.CreateOrder(OID, RoomID, CustomerID, starttime, endtime, Days, price);//创建订单
                     long AccountID = Account.NextID();
                     Account.CreateAccount(AccountID, starttime, price, "income");//收支订单

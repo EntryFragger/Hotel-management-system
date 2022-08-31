@@ -110,16 +110,8 @@ namespace BackEnd.Controller
                     return BadRequest("该房间未入住，无需退房");
                 }
                 //一切正常，开始进行退房操作
-                List<RoomOrder> list = RoomOrder.ListByRoom(room_id);
-                RoomOrder or = null;
-                for (int i = 0; i < list.Count; i++)
-                {
-                    if (list[i].OrderStatus == "ing")
-                    {
-                        or = list[i];
-                    }
-                }
-                int issuccess_one = RoomOrder.Change_Order_Status(or.OrderID);
+                long orderID = RoomOrder.getOrderID(room_id);
+                int issuccess_one = RoomOrder.Change_Order_Status(orderID);
                 /*以上为改变订单状态,成功改变订单状态则开始改变坊间状态*/
                 if (issuccess_one != -1)
                 {
@@ -134,6 +126,54 @@ namespace BackEnd.Controller
                 {
                     return NotFound("退房失败");
                 }
+            }
+            catch (OracleException oe)
+            {
+                return BadRequest("数据库请求出错" + oe.Number.ToString());
+            }
+        }
+        /// <summary>
+        /// 顾客办理入住
+        /// </summary>
+        /// <param name="tokenValue">token</param>
+        /// <param name="room_id">房间号</param>
+        /// <returns>入住结果</returns>
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult Room_Checkin(string tokenValue, string room_id)
+        {
+            try
+            {
+                //判断token
+                EmployeeInforToken user = JWTHelper.GetUsers(tokenValue);
+                if (user.Department != "Reception")
+                {
+                    return BadRequest("权限不符");
+                }
+                //判断输入合法性
+                if (room_id.Trim().Length == 0)
+                {
+                    return BadRequest("输入房间ID为空");
+                }
+                //判断房间是否存在
+                Room room = Room.Find(room_id);
+                if (room == null)
+                {
+                    return NotFound("该房间不存在");
+                }
+                //判断是否可以入住
+                string room_status = room.RoomStatus;
+                if (room_status == "Occupied")
+                {
+                    return BadRequest("该房间已入住");
+                }
+                int issuccess = Room.Change_Room_Status(room_id, "Occupied");
+                if (issuccess != -1)
+                    return Ok("入住成功");
+                else
+                    return NotFound("入住失败");
             }
             catch (OracleException oe)
             {
