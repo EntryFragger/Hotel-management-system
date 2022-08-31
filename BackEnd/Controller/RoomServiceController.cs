@@ -185,6 +185,20 @@ namespace BackEnd.Controller
                     return BadRequest("输入信息有误");
                 }
                 //返回结果
+                RoomService original_room_service = RoomService.Find(room_id, time);
+                if(original_room_service == null)
+                {
+                    return BadRequest("房间服务不存在");
+                }
+                string original_status = RoomService.Find(room_id, time).Status;
+                if(original_status == "Done")
+                {
+                    return BadRequest("房间服务已完成，无法修改");
+                }
+                if (original_status == status)
+                {
+                    return BadRequest("修改状态与原状态相同，无需修改");
+                }
                 int issuccess = RoomService.Change_RoomService_Status(room_id, time, status);
                 if (issuccess != -1)
                 {
