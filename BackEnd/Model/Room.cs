@@ -15,7 +15,7 @@ namespace BackEnd.Model
         public string RoomType { set; get; }
         public string RoomStatus { set; get; }
         public string RoomPrice { set; get; }
-        
+       
         public static Room Find(string ID)
         {
             Room room = null;
