@@ -35,9 +35,12 @@ namespace BackEnd.Model
             {
                 DateTime start1 = Convert.ToDateTime(dataRow["StartTime"].ToString());
                 DateTime end1 = Convert.ToDateTime(dataRow["EndTime"].ToString());
-                if ((start <= start1 && end > start1) || (start < end1 && end >= end1)|| (start >= start1 && end <= end1))
+                if(dataRow["OrderStatus"].ToString()=="ing")
                 {
-                    return true;
+                    if ((start <= start1 && end > start1) || (start < end1 && end >= end1) || (start >= start1 && end <= end1))
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
