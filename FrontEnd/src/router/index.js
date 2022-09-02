@@ -22,6 +22,8 @@ import StaffInfo from '@/views/StaffInfo.vue'
 import StaffInfoChange from '@/views/StaffInfoChange.vue'
 import StaffInfoNew from '@/views/StaffInfoNew.vue'
 import EmployeeManagement from '@/views/EmployeeManagement.vue'
+import HealthReport from '@/views/HealthReport.vue'
+import GetHealthResult from '@/views/GetHealthResult.vue'
 
 export default new VueRouter({
     routes:[
@@ -134,6 +136,16 @@ export default new VueRouter({
             name: 'EmployeeManagement',
             path: '/EmployeeManagement',
             component: EmployeeManagement
+        },
+        {
+            name: 'HealthReport',
+            path: '/HealthReport',
+            component: HealthReport
+        },
+        {
+            name: 'GetHealthResult',
+            path: '/GetHealthResult',
+            component: GetHealthResult
         }
         
     ]

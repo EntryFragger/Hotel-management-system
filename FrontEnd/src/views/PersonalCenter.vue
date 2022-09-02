@@ -36,7 +36,7 @@
         <el-card class="box-card">
         <div slot="header" class="clearfix">
             <span>个人资料</span>
-            <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+            <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-right" @click="JumpToHealthReport()" >前往健康上报</el-button>
         </div>
         <div v-for="info in Info" :key="info" class="text item">
             {{info}}
@@ -186,22 +186,13 @@ export default {
           });          
         });
 
-        // this.$refs[formName].validate((valid) => {
-        //   if (valid) {
-        //     alert('submit!');
-        //   } else {
-        //     console.log('error submit!!');
-        //     return false;
-        //   }
-        // });
-
       },
+      JumpToHealthReport(){
+            this.$router.push({path:'/HealthReport'})
+        },
       BackPage(){
         this.$router.go(-1);
       }
-      // resetForm(formName) {
-      //   this.$refs[formName].resetFields();
-      // }
     }
 }
 </script>

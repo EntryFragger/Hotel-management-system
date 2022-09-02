@@ -3,7 +3,7 @@
   <div class="bpbg">
 
       <transition name="bpmove" appear>
-        <h1 class="bptitle">库 存 管 理</h1>
+        <h1 class="bptitle">采 购 管 理</h1>
       </transition>
   
       <transition name="bpmove" appear>

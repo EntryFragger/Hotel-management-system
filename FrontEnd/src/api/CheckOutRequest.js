@@ -8,6 +8,14 @@ export function PostCheckOut(param) {
     })
 }
 
+export function PostCheckIn(param) {
+    return request({
+        url: '/Order/Room_Checkin',
+        method: 'post',
+        data: param
+    })
+}
+
 export function GetRoomDetail(data) {
     return request({
         url: '/Room/Room_GetSpecificRoom',

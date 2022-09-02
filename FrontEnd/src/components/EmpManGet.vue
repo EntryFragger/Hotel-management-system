@@ -21,8 +21,12 @@
     </el-form>
     </el-card>
 
-    <div class="newinfocard"  @click="newstaffinfo">
+    <div class="newInfoCard"  @click="newstaffinfo">
         <h1 class="eatitle">新 增 员 工 信 息</h1>
+    </div>
+    
+    <div class="healthinfocard"  @click="jumptohealthinfo">
+        <h1 class="eatitle">查 看 核 酸 信 息</h1>
     </div>
 
     <div class="eatable">
@@ -122,6 +126,9 @@ export default {
         },
         newstaffinfo(){
             this.$router.push({path:'/StaffInfoNew'})
+        },
+        jumptohealthinfo(){
+            this.$router.push({path:'/GetHealthResult'})
         },
         showDetail(row){          
             this.$router.push({
@@ -225,18 +232,31 @@ export default {
 }
 
 
-.newinfocard{
-    width: 15%;
+.newInfoCard{
+    width: 12%;
     height: 3.5%;
     position: absolute;
     top: 20%;
-    left: 74%;
+    left: 75%;
     margin: auto;
     padding: 15px 40px 40px 40px;
     box-shadow: -15px 15px 15px rgba(6, 17, 47, 0.7);
     opacity: 1;
     background: rgb(64, 158, 255);
 }
+.healthinfocard{
+    width: 12%;
+    height: 3.5%;
+    position: absolute;
+    top: 20%;
+    left: 57%;
+    margin: auto;
+    padding: 15px 40px 40px 40px;
+    box-shadow: -15px 15px 15px rgba(6, 17, 47, 0.7);
+    opacity: 1;
+    background: rgb(64, 158, 255);
+}
+
 .eatitle{
     font-family:"PingFang SC";
     font-size:30px;

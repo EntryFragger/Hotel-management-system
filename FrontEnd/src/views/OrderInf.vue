@@ -22,7 +22,7 @@
           <el-menu-item index="/CreateRoomService">客房服务下单</el-menu-item>
         </el-submenu>
         <el-menu-item index="/CustomerInfo">顾客查询</el-menu-item>
-        <el-menu-item index="/CheckOut">人工退房</el-menu-item>
+        <el-menu-item index="/CheckOut">客房状态管理</el-menu-item>
         <!-- <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item> -->
       </el-menu>
     </div>

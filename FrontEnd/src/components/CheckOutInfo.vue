@@ -4,6 +4,7 @@
   <el-descriptions :column="1" border>
     <template slot="extra">
       <el-button type="primary" size="small" @click="GetRoomInfo">查询</el-button>
+      <el-button type="primary" size="small" @click="RoomCheckIn">激活</el-button>
       <el-button type="primary" size="small" @click="RoomCheckOut">退房</el-button>
     </template>
 
@@ -36,7 +37,7 @@
 </template>
 
 <script>
-import {PostCheckOut, GetRoomDetail} from '@/api/CheckOutRequest'
+import {PostCheckOut, GetRoomDetail, PostCheckIn} from '@/api/CheckOutRequest'
 import {GetStoreToken} from '@/store/storeInfo'
 export default {
   data(){
@@ -73,7 +74,43 @@ export default {
             return;
           })
     },
+    RoomCheckIn(){
+      //确定退房
+      this.$confirm('是否要进行房间激活', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let param = {
+          room_id:this.RoomID,
+          tokenValue:GetStoreToken()
+          };
+          console.log(param);
+          //发送退房信息
+          PostCheckIn(param).then(response=>{
+          //获取api中的数据
+          console.log(response);
 
+          this.$message({
+          type: 'success',
+          message: '激活成功'});
+          
+          }).catch((error)=>{
+            this.$message({
+            message:error.response.data,
+            type:'warning'
+            });
+            console.log('error',error)
+            return;
+        })//取消退房
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });          
+        });
+
+    },
     //退房
     RoomCheckOut(){
       //确定退房
@@ -83,9 +120,10 @@ export default {
           type: 'warning'
         }).then(() => {
           let param = {
-          RoomID:this.RoomID,
-          Token:GetStoreToken()
+          room_id:this.RoomID,
+          tokenValue:GetStoreToken()
           };
+          console.log(param);
           //发送退房信息
           PostCheckOut(param).then(response=>{
           //获取api中的数据

@@ -210,7 +210,7 @@ export default {
        }
     },
     JumpToMemberPage(data){
-      this.$router.push({
+      this.$router.replace({
         path: data,
         name: 'becomeMember',
         params:{

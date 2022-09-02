@@ -2,7 +2,7 @@
 <!--财务报单审批维护界面-->
   <div class="cobg">
     <transition name="comove" appear>
-    <h1 class="cotitle">顾 客 房 间 退 房</h1>
+    <h1 class="cotitle">顾 客 房 间 管 理</h1>
     </transition>
       <!--返回按钮-->
     <transition name="comove" appear>
@@ -25,7 +25,7 @@
           <el-menu-item index="/ReserveRoom">客房下单</el-menu-item>
           <el-menu-item index="/CreateRoomService">客房服务下单</el-menu-item>
         </el-submenu>
-        <el-menu-item index="/CheckOut">人工退房</el-menu-item>
+        <el-menu-item index="/CheckOut">客房状态管理</el-menu-item>
         <!-- <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item> -->
       </el-menu>
 
