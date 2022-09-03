@@ -1,8 +1,14 @@
 <template>
-    <transition name="citablemove" appear>
-    <div class="citable">
-    <el-descriptions  :column="1" border>
-  
+  <div class="citable">
+      <transition name="cimove" appear>
+        <el-button-group class="ciback">
+          <el-button type="primary"   @click="GetCusInfo">刷新</el-button>
+        </el-button-group>
+      </transition>
+      
+      <transition name="citablemove" appear>
+      <el-descriptions  :column="1" border>
+    
       <template slot="extra">
           <el-button type="primary"  @click="newStaffInfo">修改员工信息</el-button>
       </template>
@@ -37,8 +43,10 @@
         <el-input placeholder="请输入内容" v-model="item.department" clearable></el-input>
       </el-descriptions-item>
     </el-descriptions>
+  </transition>
     </div>
-    </transition>
+
+
   </template>
   
   <script>
@@ -153,5 +161,25 @@
       to{
           transform:translateY(0%);
       }
+  }
+
+  .cimove-enter-active{
+    animation: cimove 0.5s ease-in-out;
+  }
+  
+  @keyframes cimove{
+    from{
+      transform:translateY(-200%);
+    }
+    to{
+      transform:translateY(0%);
+    }
+  }
+  
+  
+  .ciback{
+    position:absolute;
+    top: -18%;
+    left: 94.3%;
   }
   </style>

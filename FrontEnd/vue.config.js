@@ -5,10 +5,10 @@ module.exports = defineConfig({
   devServer: {
     open:true,
     host: "localhost",
-    port: 8080, // 端口号
+    port: 8000, // 端口号
     proxy: {
       '^/api': {
-        target: 'http://localhost:27187/api',
+        target: 'http://localhost:9998/api',
         ws: true,
         changeOrigin: true,
         pathRewrite:{'^/api':''}
